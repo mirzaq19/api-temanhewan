@@ -1,7 +1,7 @@
 version: "3.8"
 services:
-  temanhewan:
-    container_name: temanhewan
+  api-temanhewan:
+    container_name: api-temanhewan
     image: dptsi/laravel-web-dev
     volumes:
       - ./src:/var/www/html
