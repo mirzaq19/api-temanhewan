@@ -15,6 +15,17 @@ This repository is api project to provide data using api for temanhewan website.
 
 ### How to install 
 1. Clone this repository to your local machine
-2. Copy `.env.example` file to `.env` and fill as you need
-3. Enter in `./src` directory and type command like this `composer install` in terminal. This is for installing dependency in laravel
-4. Back to root directory and type command `docker-compose up -d`
+2. In **root** directory Copy `.env.example` file to `.env` and fill as you need
+3. In `./src` directory and copy `.env.example` file to `.env` and change in database section like this
+
+   ```.env
+    DB_CONNECTION=mysql
+    DB_HOST=temanhewan-db             # service name in docker-compose
+    DB_PORT=3306                      # expose port
+    DB_DATABASE=temanhewandb          # database name
+    DB_USERNAME=gcoder                # user
+    DB_PASSWORD="secret123#"          # password
+   ```
+4. Back to root directory and type command `docker container exec -it temanhewan-api sh` in terminal to access container terminal.
+5. **In container terminal**, install dependency by typing command `composer install` and generate app key `php artisan key:generate`
+7. Exit from container terminal and type command `docker-compose up -d` to create container
