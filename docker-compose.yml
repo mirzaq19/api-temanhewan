@@ -1,8 +1,9 @@
 version: "3.8"
+
 services:
-  api-temanhewan:
-    container_name: api-temanhewan
-    image: dptsi/laravel-web-dev
+  temanhewan-api:
+    image: mirzaq19/temanhewan-api:latest
+    container_name: temanhewan-api
     volumes:
       - ./src:/var/www/html
     env_file: .env
@@ -13,7 +14,29 @@ services:
       - "host.docker.internal:host-gateway"
     networks:
       - nginx-proxy-network
+      - temanhewan-network
+  temanhewan-db:
+    image: mariadb:latest
+    container_name: temanhewan-db
+    restart: unless-stopped
+    tty: true
+    ports:
+      - 3306:3306
+    volumes:
+      - temanhewandb:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=temanhewandb
+      - MYSQL_USER=gcoder
+      - MYSQL_PASSWORD=secret123#
+      - MYSQL_ROOT_PASSWORD=secret123#
+    networks:
+      - temanhewan-network
 
 networks:
   nginx-proxy-network:
     external: true
+  temanhewan-network:
+    driver: bridge
+
+volumes:
+  temanhewandb:
