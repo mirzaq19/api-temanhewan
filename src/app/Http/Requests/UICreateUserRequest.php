@@ -29,6 +29,7 @@ class UICreateUserRequest extends FormRequest
         return [
             'name' => 'required',
             'profile_image' => 'sometimes|image|max:1024',
+            'birthdate' => 'required|date',
             'username' => 'required|unique:users,username',
             'gender' => 'required',
             'role' => 'required',
