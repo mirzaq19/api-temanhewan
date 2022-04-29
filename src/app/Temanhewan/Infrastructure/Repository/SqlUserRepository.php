@@ -51,16 +51,19 @@ class SqlUserRepository implements UserRepository
         );
     }
 
+    /**
+     * @throws Exception
+     */
     public function convertRequestToUser(CreateUserRequest $request, string $profile_image_name): User
     {
         return new User(
             new UserId(),
             $request->getName(),
             $profile_image_name,
-            $request->getBirthDate(),
+            new DateTime($request->getBirthDate()),
             $request->getUsername(),
-            $request->getGender(),
-            $request->getRole(),
+            new Gender($request->getGender()),
+            new Role($request->getRole()),
             0,
             $request->getEmail(),
             bcrypt($request->getPassword()),

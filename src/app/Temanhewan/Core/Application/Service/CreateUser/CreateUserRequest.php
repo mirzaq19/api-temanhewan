@@ -2,9 +2,6 @@
 
 namespace App\Temanhewan\Core\Application\Service\CreateUser;
 
-use DateTime;
-use App\Temanhewan\Core\Domain\Model\Gender;
-use App\Temanhewan\Core\Domain\Model\Role;
 use Illuminate\Http\UploadedFile;
 
 class CreateUserRequest
@@ -12,10 +9,10 @@ class CreateUserRequest
     public function __construct(
         private string $name,
         private ?UploadedFile $profile_image,
-        private DateTime $birthdate,
+        private string $birthdate,
         private string $username,
-        private Gender $gender,
-        private Role $role,
+        private string $gender,
+        private string $role,
         private string $email,
         private string $password,
         private string $address,
@@ -23,9 +20,9 @@ class CreateUserRequest
     ){}
 
     /**
-     * @return DateTime
+     * @return string
      */
-    public function getBirthDate(): DateTime
+    public function getBirthDate(): string
     {
         return $this->birthdate;
     }
@@ -55,17 +52,17 @@ class CreateUserRequest
     }
 
     /**
-     * @return Gender
+     * @return string
      */
-    public function getGender(): Gender
+    public function getGender(): string
     {
         return $this->gender;
     }
 
     /**
-     * @return Role
+     * @return string
      */
-    public function getRole(): Role
+    public function getRole(): string
     {
         return $this->role;
     }

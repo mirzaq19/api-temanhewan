@@ -32,10 +32,10 @@ class UserController extends Controller
         $input = new CreateUserRequest(
             name: $request->input("name"),
             profile_image: $request->file("profile_image") ? $request->file("profile_image") : null,
-            birthdate: new DateTime($request->input("birthdate")),
+            birthdate: $request->input("birthdate"),
             username: $request->input("username"),
-            gender: new Gender($request->input("gender")),
-            role: new Role($request->input("role")),
+            gender: $request->input("gender"),
+            role: $request->input("role"),
             email: $request->input("email"),
             password: $request->input("password"),
             address: $request->input("address"),
@@ -53,7 +53,7 @@ class UserController extends Controller
             $this->db_manager->commit();
         }catch (Exception $e){
             $this->db_manager->rollback();
-            return "{$e->getCode()}:{$e->getMessage()}";
+            return $this->errors($e);
         }
 
         return $this->success();
