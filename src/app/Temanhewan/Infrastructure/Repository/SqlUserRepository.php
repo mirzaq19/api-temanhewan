@@ -36,7 +36,7 @@ class SqlUserRepository implements UserRepository
     public function convertRowToUser(object $user_row): User
     {
         return new User(
-            $user_row->id,
+            new UserId($user_row->id),
             $user_row->name,
             $user_row->profile_image,
             new DateTime($user_row->birthdate),
