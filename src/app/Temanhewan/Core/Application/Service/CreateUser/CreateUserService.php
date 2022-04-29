@@ -17,8 +17,8 @@ class CreateUserService
     {
         if(!is_null($request->getProfileImage())){
             // Get filename and extension of profile_image
-            $extension = $request->getProfileImage()->getExtension();
-            $filename = $request->getUsername(). time(). rand(1,100) . '.' . $extension;
+            $extension = $request->getProfileImage()->getClientOriginalExtension();
+            $filename = $request->getUsername(). '-' . time(). rand(1,100) . '.' . $extension;
 
             // Move profile_image to public/user/profile_images
             Storage::disk('public')->putFileAs('user/profile_images', $request->getProfileImage(), $filename);

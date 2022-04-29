@@ -24,7 +24,6 @@ class UserController extends Controller
     { }
 
     /**
-     * @throws TemanhewanException
      * @throws Exception
      */
     public function createUser(UICreateUserRequest $request): JsonResponse|string
