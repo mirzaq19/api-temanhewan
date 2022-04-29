@@ -8,7 +8,7 @@ class User
 {
     private UserId $id;
     private string $name;
-    private string $profile_image;
+    private ?string $profile_image;
     private DateTime $birthdate;
     private string $username;
     private Gender $gender;
@@ -72,6 +72,7 @@ class User
     /**
      * Add pet to user
      * @param string $name
+     * @param string $profile_image
      * @param string $description
      * @param DateTime $birthdate
      * @param Race $race
@@ -80,20 +81,22 @@ class User
      */
     public function addPet(
         string $name,
+        string $profile_image,
         string $description,
         DateTime $birthdate,
         Race $race,
-        Gender $gender
+        Gender $gender,
     ): Pet
     {
         return new Pet(
             new PetId(),
             $name,
+            $profile_image,
             $description,
             $birthdate,
             $race,
             $gender,
-            $this->getId()
+            $this->getId(),
         );
     }
 
@@ -122,9 +125,9 @@ class User
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getProfileImage(): string
+    public function getProfileImage(): ?string
     {
         return $this->profile_image;
     }
