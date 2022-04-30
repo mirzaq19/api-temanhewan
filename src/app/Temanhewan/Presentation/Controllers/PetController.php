@@ -2,15 +2,17 @@
 
 namespace App\Temanhewan\Presentation\Controllers;
 
+use Exception;
+use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UICreatePetRequest;
+use Illuminate\Support\Facades\Validator;
+
 use App\Shared\Service\DBManager;
 use App\Temanhewan\Core\Application\Service\CreatePet\CreatePetRequest;
 use App\Temanhewan\Core\Application\Service\CreatePet\CreatePetService;
 use App\Temanhewan\Core\Domain\Repository\PetRepository;
 use App\Temanhewan\Core\Domain\Repository\UserRepository;
-use Exception;
-use Illuminate\Http\JsonResponse;
 
 class PetController extends Controller
 {
@@ -20,8 +22,25 @@ class PetController extends Controller
         private PetRepository $petRepository
     ){}
 
-    public function createPet(UICreatePetRequest $request): JsonResponse
+    public function createPet(Request $request): JsonResponse
     {
+        $rules = [
+            'name' => 'required',
+            'profile_image' => 'sometimes|image|max:1024',
+            'description' => 'sometimes|max:255',
+            'birthdate' => 'required|date',
+            'race' => 'required',
+            'gender' => 'required',
+            'id_user' => 'required'
+        ];
+
+        $messages = [
+            'id_user.required' => 'Please send id_user'
+        ];
+
+        $validator = Validator::make($request->all(),$rules,$messages);
+        if($validator->fails()) return $this->validationError($validator->errors());
+
         $input = new CreatePetRequest(
             name: $request->input("name"),
             profile_image: $request->file("profile_image") ? $request->file("profile_image") : null,
@@ -44,7 +63,7 @@ class PetController extends Controller
             $this->db_manager->commit();
         }catch (Exception $e){
             $this->db_manager->rollback();
-            return $this->errors($e);
+            return $this->error($e);
         }
 
         return $this->success();

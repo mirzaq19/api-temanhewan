@@ -7,7 +7,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
+use Illuminate\Support\MessageBag;
 use Illuminate\Routing\Controller as BaseController;
 
 class Controller extends BaseController
@@ -33,17 +33,32 @@ class Controller extends BaseController
      * @param Exception $errors
      * @return JsonResponse
      */
-    public function errors(Exception $errors): JsonResponse
+    public function error(Exception $errors): JsonResponse
     {
         return response()->json(
             [
                 'success' => false,
-                'message' => 'error '. $errors->getCode() . ':' . $errors->getMessage(),
+                'message' => $errors->getCode(). ':' . $errors->getMessage(),
                 'data' => [
                     'message' => $errors->getMessage(),
                     'code' => $errors->getCode(),
                 ],
-            ]
+            ], 400
+        );
+    }
+
+    /**
+     * @param MessageBag $errors
+     * @return JsonResponse
+     */
+    public function validationError(MessageBag $errors): JsonResponse
+    {
+        return response()->json(
+            [
+                'success' => false,
+                'message' => 'Validation Error',
+                'data' => $errors,
+            ], 400
         );
     }
 

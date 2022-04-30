@@ -2,18 +2,16 @@
 
 namespace App\Temanhewan\Presentation\Controllers;
 
+use Exception;
+use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UICreateUserRequest;
+use Illuminate\Support\Facades\Validator;
+
 use App\Shared\Service\DBManager;
+use App\Temanhewan\Core\Domain\Repository\UserRepository;
 use App\Temanhewan\Core\Application\Service\CreateUser\CreateUserRequest;
 use App\Temanhewan\Core\Application\Service\CreateUser\CreateUserService;
-use App\Temanhewan\Core\Domain\Exception\TemanhewanException;
-use App\Temanhewan\Core\Domain\Model\Gender;
-use App\Temanhewan\Core\Domain\Model\Role;
-use App\Temanhewan\Core\Domain\Repository\UserRepository;
-use DateTime;
-use Exception;
-use Illuminate\Http\JsonResponse;
 
 class UserController extends Controller
 {
@@ -26,8 +24,24 @@ class UserController extends Controller
     /**
      * @throws Exception
      */
-    public function createUser(UICreateUserRequest $request): JsonResponse|string
+    public function createUser(Request $request): JsonResponse
     {
+        $rules = [
+            'name' => 'required',
+            'profile_image' => 'sometimes|image|max:1024',
+            'birthdate' => 'required|date',
+            'username' => 'required|unique:users,username',
+            'gender' => 'required',
+            'role' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required',
+            'address' => 'required',
+            'phone' => 'required'
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if($validator->fails()) return $this->validationError($validator->errors());
+
         $input = new CreateUserRequest(
             name: $request->input("name"),
             profile_image: $request->file("profile_image") ? $request->file("profile_image") : null,
@@ -41,9 +55,7 @@ class UserController extends Controller
             phone: $request->input("phone"),
         );
 
-        $service = new CreateUserService(
-            userRepository: $this->userRepository
-        );
+        $service = new CreateUserService($this->userRepository);
 
         $this->db_manager->begin();
 
@@ -52,7 +64,7 @@ class UserController extends Controller
             $this->db_manager->commit();
         }catch (Exception $e){
             $this->db_manager->rollback();
-            return $this->errors($e);
+            return $this->error($e);
         }
 
         return $this->success();
