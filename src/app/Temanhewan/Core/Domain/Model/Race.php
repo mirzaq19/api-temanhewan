@@ -14,6 +14,6 @@ class Race extends BasicEnum{
      */
     protected function onErrorException(): TemanhewanException
     {
-        throw new TemanhewanException("Invalid race pet type",1002);
+        throw new TemanhewanException("Invalid pet race type",1002);
     }
 }
