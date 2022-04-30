@@ -2,10 +2,10 @@
 
 namespace App\Temanhewan\Core\Application\Service\CreateUser;
 
-use App\Temanhewan\Core\Domain\Model\User;
-use App\Temanhewan\Core\Domain\Model\UserId;
-use App\Temanhewan\Core\Domain\Repository\UserRepository;
+use Exception;
 use Illuminate\Support\Facades\Storage;
+
+use App\Temanhewan\Core\Domain\Repository\UserRepository;
 
 class CreateUserService
 {
@@ -13,6 +13,9 @@ class CreateUserService
         private UserRepository $userRepository
     ){ }
 
+    /**
+     * @throws Exception
+     */
     public function execute(CreateUserRequest $request)
     {
         if(!is_null($request->getProfileImage())){
