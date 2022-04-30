@@ -67,6 +67,6 @@ class UserController extends Controller
             return $this->error($e);
         }
 
-        return $this->success();
+        return $this->success(201,"User created successfully",);
     }
 }

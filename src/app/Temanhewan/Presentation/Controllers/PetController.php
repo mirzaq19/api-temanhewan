@@ -66,6 +66,6 @@ class PetController extends Controller
             return $this->error($e);
         }
 
-        return $this->success();
+        return $this->success(201, 'Pet Added Successfully');
     }
 }

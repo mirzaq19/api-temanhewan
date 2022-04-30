@@ -18,12 +18,12 @@ class Controller extends BaseController
      * @param mixed $data
      * @return JsonResponse
      */
-    public function successWithData(mixed $data, int $status=200): JsonResponse
+    public function successWithData(mixed $data, int $status=200, string $message='success'): JsonResponse
     {
         return response()->json(
             [
                 'success' => true,
-                'message' => 'success',
+                'message' => $message,
                 'data' => $data,
             ], $status
         );
@@ -65,12 +65,12 @@ class Controller extends BaseController
     /**
      * @return JsonResponse
      */
-    protected function success(int $status=200): JsonResponse
+    protected function success(int $status=200, string $message='success'): JsonResponse
     {
         return response()->json(
             [
                 'success' => true,
-                'message' => 'success',
+                'message' => $message,
             ], $status
         );
     }
