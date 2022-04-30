@@ -13,7 +13,7 @@ class Pet
     private DateTime $birthdate;
     private Race $race;
     private Gender $gender;
-    private UserId $id_user;
+    private UserId $user_id;
 
     /**
      * @param PetId $id
@@ -23,7 +23,7 @@ class Pet
      * @param DateTime $birthdate
      * @param Race $race
      * @param Gender $gender
-     * @param UserId $id_user
+     * @param UserId $user_id
      */
     public function __construct(
         PetId $id,
@@ -33,7 +33,7 @@ class Pet
         DateTime $birthdate,
         Race $race,
         Gender $gender,
-        UserId $id_user)
+        UserId $user_id)
     {
         $this->id = $id;
         $this->name = $name;
@@ -42,7 +42,7 @@ class Pet
         $this->birthdate = $birthdate;
         $this->race = $race;
         $this->gender = $gender;
-        $this->id_user = $id_user;
+        $this->user_id = $user_id;
     }
 
     /**
@@ -104,8 +104,8 @@ class Pet
     /**
      * @return UserId
      */
-    public function getIdUser(): UserId
+    public function getUserId(): UserId
     {
-        return $this->id_user;
+        return $this->user_id;
     }
 }

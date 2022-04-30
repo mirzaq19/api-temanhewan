@@ -12,7 +12,7 @@ class CreatePetRequest{
         public string $birthdate,
         public string $race,
         public string $gender,
-        public string $id_user
+        public string $user_id
     ){}
 
     /**
@@ -66,8 +66,8 @@ class CreatePetRequest{
     /**
      * @return string
      */
-    public function getIdUser(): string
+    public function getUserId(): string
     {
-        return $this->id_user;
+        return $this->user_id;
     }
 }

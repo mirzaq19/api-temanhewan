@@ -21,7 +21,7 @@ return new class extends Migration
             $table->date('birthdate');
             $table->string('race');
             $table->string('gender');
-            $table->foreignUuid('id_user');
+            $table->foreignUuid('user_id');
             $table->timestamps();
         });
     }

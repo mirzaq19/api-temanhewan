@@ -32,14 +32,14 @@ class UICreatePetRequest extends FormRequest
             'birthdate' => 'required|date',
             'race' => 'required',
             'gender' => 'required',
-            'id_user' => 'required'
+            'user_id' => 'required'
         ];
     }
 
     public function messages()
     {
         return [
-            'id_user.required' => 'Please send id_user'
+            'user_id.required' => 'Please send user_id'
         ];
     }
 

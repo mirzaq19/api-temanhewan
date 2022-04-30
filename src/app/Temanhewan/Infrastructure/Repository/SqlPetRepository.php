@@ -41,7 +41,7 @@ class SqlPetRepository implements PetRepository{
             new DateTime($pet_row->birthdate),
             new Race($pet_row->race),
             new Gender($pet_row->gender),
-            $pet_row->id_user
+            $pet_row->user_id
         );
     }
 
@@ -55,7 +55,7 @@ class SqlPetRepository implements PetRepository{
             'birthdate' => $pet->getBirthdate()->format('Y-m-d'),
             'race' => $pet->getRace()->getValue(),
             'gender' => $pet->getGender()->getValue(),
-            'id_user' => $pet->getIdUser()->id(),
+            'user_id' => $pet->getUserId()->id(),
             'created_at' => now(),
             'updated_at' => now()
         ]);

@@ -31,11 +31,11 @@ class PetController extends Controller
             'birthdate' => 'required|date',
             'race' => 'required',
             'gender' => 'required',
-            'id_user' => 'required'
+            'user_id' => 'required'
         ];
 
         $messages = [
-            'id_user.required' => 'Please send id_user'
+            'user_id.required' => 'Please send user_id'
         ];
 
         $validator = Validator::make($request->all(),$rules,$messages);
@@ -48,7 +48,7 @@ class PetController extends Controller
             birthdate: $request->input("birthdate"),
             race: $request->input("race"),
             gender: $request->input("gender"),
-            id_user: $request->input('id_user')
+            user_id: $request->input('user_id')
         );
 
         $service = new CreatePetService(
