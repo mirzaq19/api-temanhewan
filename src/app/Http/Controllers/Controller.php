@@ -18,14 +18,14 @@ class Controller extends BaseController
      * @param mixed $data
      * @return JsonResponse
      */
-    public function successWithData(mixed $data): JsonResponse
+    public function successWithData(mixed $data, int $status=200): JsonResponse
     {
         return response()->json(
             [
                 'success' => true,
                 'message' => 'success',
                 'data' => $data,
-            ]
+            ], $status
         );
     }
 
@@ -33,7 +33,7 @@ class Controller extends BaseController
      * @param Exception $errors
      * @return JsonResponse
      */
-    public function error(Exception $errors): JsonResponse
+    public function error(Exception $errors, int $status=400): JsonResponse
     {
         return response()->json(
             [
@@ -43,7 +43,7 @@ class Controller extends BaseController
                     'message' => $errors->getMessage(),
                     'code' => $errors->getCode(),
                 ],
-            ], 400
+            ], $status
         );
     }
 
@@ -51,27 +51,27 @@ class Controller extends BaseController
      * @param MessageBag $errors
      * @return JsonResponse
      */
-    public function validationError(MessageBag $errors): JsonResponse
+    public function validationError(MessageBag $errors, int $status=400): JsonResponse
     {
         return response()->json(
             [
                 'success' => false,
                 'message' => 'Validation Error',
                 'data' => $errors,
-            ], 400
+            ], $status
         );
     }
 
     /**
      * @return JsonResponse
      */
-    protected function success(): JsonResponse
+    protected function success(int $status=200): JsonResponse
     {
         return response()->json(
             [
                 'success' => true,
                 'message' => 'success',
-            ]
+            ], $status
         );
     }
 }
