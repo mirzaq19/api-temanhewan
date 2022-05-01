@@ -2,12 +2,18 @@
 
 namespace App\Temanhewan\Core\Domain\Model;
 
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Contracts\Auth\Authenticatable;
+
 use DateTime;
 
-class User
+class User implements Authenticatable
 {
+    use HasApiTokens;
+
     private UserId $id;
     private string $name;
+    private ?string $rememberToken;
     private ?string $profile_image;
     private DateTime $birthdate;
     private string $username;
@@ -15,7 +21,7 @@ class User
     private Role $role;
     private int $balance;
     private string $email;
-    private string $password;
+    private string $hashPassword;
     private string $address;
     private string $phone;
 
@@ -29,7 +35,7 @@ class User
      * @param Role $role
      * @param int $balance
      * @param string $email
-     * @param string $password
+     * @param string $hashPassword
      * @param string $address
      * @param string $phone
      */
@@ -43,7 +49,7 @@ class User
         Role $role,
         int $balance,
         string $email,
-        string $password,
+        string $hashPassword,
         string $address,
         string $phone)
     {
@@ -56,7 +62,7 @@ class User
         $this->role = $role;
         $this->balance = $balance;
         $this->email = $email;
-        $this->password = $password;
+        $this->hashPassword = $hashPassword;
         $this->address = $address;
         $this->phone = $phone;
     }
@@ -167,9 +173,9 @@ class User
     /**
      * @return string
      */
-    public function getPassword(): string
+    public function getHashPassword(): string
     {
-        return $this->password;
+        return $this->hashPassword;
     }
 
     /**
@@ -188,5 +194,33 @@ class User
         return $this->phone;
     }
 
+    public function getAuthIdentifierName(): string
+    {
+        return 'id';
+    }
 
+    public function getAuthIdentifier():string
+    {
+        return $this->getId()->id();
+    }
+
+    public function getAuthPassword():string
+    {
+        return $this->getHashPassword();
+    }
+
+    public function getRememberToken():?string
+    {
+        return $this->rememberToken;
+    }
+
+    public function setRememberToken($value)
+    {
+        $this->rememberToken = $value;
+    }
+
+    public function getRememberTokenName():string
+    {
+        return '';
+    }
 }

@@ -12,6 +12,7 @@ use App\Temanhewan\Core\Domain\Repository\UserRepository;
 use DateTime;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class SqlUserRepository implements UserRepository
 {
@@ -21,6 +22,20 @@ class SqlUserRepository implements UserRepository
     public function byId(UserId $id): ?User
     {
         $user_row = DB::table('users')->where('id', $id->id())->first();
+
+        if ($user_row === null) {
+            return null;
+        }
+
+        return $this->convertRowToUser($user_row);
+    }
+
+    /**
+     * @throws TemanhewanException
+     */
+    public function byEmail(string $email): ?User
+    {
+        $user_row = DB::table('users')->where('email', $email)->first();
 
         if ($user_row === null) {
             return null;
@@ -66,7 +81,7 @@ class SqlUserRepository implements UserRepository
             new Role($request->getRole()),
             0,
             $request->getEmail(),
-            bcrypt($request->getPassword()),
+            Hash::make($request->getPassword()),
             $request->getAddress(),
             $request->getPhone()
         );
@@ -84,7 +99,7 @@ class SqlUserRepository implements UserRepository
             'role' => $user->getRole()->getValue(),
             'balance' => $user->getBalance(),
             'email' => $user->getEmail(),
-            'password' => $user->getPassword(),
+            'password' => $user->getHashPassword(),
             'address' => $user->getAddress(),
             'phone' => $user->getPhone(),
             'created_at' => now(),

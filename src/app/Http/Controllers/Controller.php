@@ -16,9 +16,11 @@ class Controller extends BaseController
 
     /**
      * @param mixed $data
+     * @param int $status
+     * @param string $message
      * @return JsonResponse
      */
-    public function successWithData(mixed $data, int $status=200, string $message='success'): JsonResponse
+    public function successWithData(mixed $data, string $message='success', int $status=200): JsonResponse
     {
         return response()->json(
             [
@@ -30,10 +32,26 @@ class Controller extends BaseController
     }
 
     /**
-     * @param Exception $errors
+     * @param int $status
+     * @param string $message
      * @return JsonResponse
      */
-    public function error(Exception $errors, int $status=400): JsonResponse
+    protected function success(string $message='success', int $status=200): JsonResponse
+    {
+        return response()->json(
+            [
+                'success' => true,
+                'message' => $message,
+            ], $status
+        );
+    }
+
+    /**
+     * @param mixed $errors
+     * @param int $status
+     * @return JsonResponse
+     */
+    public function error(mixed $errors, int $status=400): JsonResponse
     {
         return response()->json(
             [
@@ -49,6 +67,7 @@ class Controller extends BaseController
 
     /**
      * @param MessageBag $errors
+     * @param int $status
      * @return JsonResponse
      */
     public function validationError(MessageBag $errors, int $status=400): JsonResponse
@@ -63,15 +82,11 @@ class Controller extends BaseController
     }
 
     /**
+     * @param array $response
      * @return JsonResponse
      */
-    protected function success(int $status=200, string $message='success'): JsonResponse
+    public function customResponse(array $response): JsonResponse
     {
-        return response()->json(
-            [
-                'success' => true,
-                'message' => $message,
-            ], $status
-        );
+        return response()->json($response['response'], $response['status']);
     }
 }

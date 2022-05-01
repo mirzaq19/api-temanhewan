@@ -2,6 +2,9 @@
 
 namespace App\Temanhewan\Presentation\Controllers;
 
+use App\Temanhewan\Core\Application\Service\LoginUser\LoginUserRequest;
+use App\Temanhewan\Core\Application\Service\LoginUser\LoginUserService;
+use App\Temanhewan\Core\Application\Service\LogoutUser\LogoutUserService;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -67,6 +70,64 @@ class UserController extends Controller
             return $this->error($e);
         }
 
-        return $this->success(201,"User created successfully",);
+        return $this->success("User created successfully",201);
+    }
+
+    public function login(Request $request): JsonResponse
+    {
+        $rules = [
+            'email' => 'required|email',
+            'password' => 'required'
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if($validator->fails()) return $this->validationError($validator->errors());
+
+        $input = new LoginUserRequest(
+            email: $request->input("email"),
+            password: $request->input("password"),
+        );
+
+        $service = new LoginUserService($this->userRepository);
+
+        $this->db_manager->begin();
+
+        try {
+            $response = $service->execute($input);
+            $this->db_manager->commit();
+        }catch (Exception $e){
+            $this->db_manager->rollback();
+            return $this->error($e);
+        }
+
+        return $this->customResponse($response);
+    }
+
+    public function logout(): JsonResponse
+    {
+        $service = new LogoutUserService();
+
+        $this->db_manager->begin();
+
+        try {
+            $response = $service->execute();
+            $this->db_manager->commit();
+        }catch (Exception $e){
+            $this->db_manager->rollback();
+            return $this->error($e);
+        }
+
+        return $this->success($response);
+    }
+
+    public function unauthorized(): JsonResponse
+    {
+        return $this->customResponse([
+            'status' => 401,
+            'response' => [
+                'status' => false,
+                'message' => 'Unauthorized'
+            ]
+        ]);
     }
 }
