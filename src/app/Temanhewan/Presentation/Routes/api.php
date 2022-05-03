@@ -1,15 +1,15 @@
 <?php
 
-use App\Temanhewan\Presentation\Controllers\UserController;
+use App\Temanhewan\Presentation\Controllers\AuthController;
 use App\Temanhewan\Presentation\Controllers\PetController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('user')->group(function () {
-    Route::post('register', [UserController::class, 'createUser']);
-    Route::post('login', [UserController::class, 'login']);
-    Route::get('unauthorized', [UserController::class, 'unauthorized'])->name('login');
+    Route::post('register', [AuthController::class, 'createUser']);
+    Route::post('login', [AuthController::class, 'login']);
+    Route::get('unauthorized', [AuthController::class, 'unauthorized'])->name('login');
     Route::middleware('auth:sanctum')->group(function () {
-        Route::post('logout', [UserController::class, 'logout']);
+        Route::post('logout', [AuthController::class, 'logout']);
     });
 });
 
