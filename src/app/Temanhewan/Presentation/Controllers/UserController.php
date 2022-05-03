@@ -29,6 +29,7 @@ class UserController extends Controller
      */
     public function createUser(Request $request): JsonResponse
     {
+        $this->authorize('createUser');
         $rules = [
             'name' => 'required',
             'profile_image' => 'sometimes|image|max:1024',
@@ -88,7 +89,7 @@ class UserController extends Controller
             password: $request->input("password"),
         );
 
-        $service = new LoginUserService($this->userRepository);
+        $service = new LoginUserService();
 
         $this->db_manager->begin();
 
@@ -100,7 +101,7 @@ class UserController extends Controller
             return $this->error($e);
         }
 
-        return $this->customResponse($response);
+        return $this->successWithData($response);
     }
 
     public function logout(): JsonResponse
