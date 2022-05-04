@@ -106,4 +106,9 @@ class SqlUserRepository implements UserRepository
             'updated_at' => now()
         ]);
     }
+
+    public function update(User $user): void
+    {
+        // TODO: Implement update() method.
+    }
 }
