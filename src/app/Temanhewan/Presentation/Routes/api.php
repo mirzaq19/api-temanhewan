@@ -2,6 +2,7 @@
 
 use App\Temanhewan\Presentation\Controllers\AuthController;
 use App\Temanhewan\Presentation\Controllers\PetController;
+use App\Temanhewan\Presentation\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('user')->group(function () {
@@ -9,6 +10,7 @@ Route::prefix('user')->group(function () {
     Route::post('login', [AuthController::class, 'login']);
     Route::get('unauthorized', [AuthController::class, 'unauthorized'])->name('login');
     Route::middleware('auth:sanctum')->group(function () {
+        Route::post('update', [UserController::class, 'update']);
         Route::post('logout', [AuthController::class, 'logout']);
     });
 });

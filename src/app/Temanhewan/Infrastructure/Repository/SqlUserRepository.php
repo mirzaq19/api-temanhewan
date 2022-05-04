@@ -109,6 +109,16 @@ class SqlUserRepository implements UserRepository
 
     public function update(User $user): void
     {
-        // TODO: Implement update() method.
+        DB::table('users')
+            ->where('id', $user->getId()->id())
+            ->update([
+            'name' => $user->getName(),
+            'profile_image' => $user->getProfileImage(),
+            'birthdate' => $user->getBirthDate()->format('Y-m-d'),
+            'password' => $user->getHashPassword(),
+            'address' => $user->getAddress(),
+            'phone' => $user->getPhone(),
+            'updated_at' => now()
+        ]);
     }
 }

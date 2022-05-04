@@ -67,13 +67,6 @@ class User implements Authenticatable
         $this->phone = $phone;
     }
 
-    /**
-     * @return DateTime
-     */
-    public function getBirthdate(): DateTime
-    {
-        return $this->birthdate;
-    }
 
     /**
      * Add pet to user
@@ -107,6 +100,62 @@ class User implements Authenticatable
     }
 
     /**
+     * @param string $hashPassword
+     */
+    public function setHashPassword(string $hashPassword): void
+    {
+        $this->hashPassword = $hashPassword;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @param string|null $profile_image
+     */
+    public function setProfileImage(?string $profile_image): void
+    {
+        $this->profile_image = $profile_image;
+    }
+
+    /**
+     * @param DateTime $birthdate
+     */
+    public function setBirthdate(DateTime $birthdate): void
+    {
+        $this->birthdate = $birthdate;
+    }
+
+    /**
+     * @param int $balance
+     */
+    public function setBalance(int $balance): void
+    {
+        $this->balance = $balance;
+    }
+
+    /**
+     * @param string $address
+     */
+    public function setAddress(string $address): void
+    {
+        $this->address = $address;
+    }
+
+    /**
+     * @param string $phone
+     */
+    public function setPhone(string $phone): void
+    {
+        $this->phone = $phone;
+    }
+
+    /**
      * @return UserId
      */
     public function getId(): UserId
@@ -115,19 +164,19 @@ class User implements Authenticatable
     }
 
     /**
-     * @return Gender
-     */
-    public function getGender(): Gender
-    {
-        return $this->gender;
-    }
-
-    /**
      * @return string
      */
     public function getName(): string
     {
         return $this->name;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getBirthdate(): DateTime
+    {
+        return $this->birthdate;
     }
 
     /**
@@ -144,6 +193,14 @@ class User implements Authenticatable
     public function getUsername(): string
     {
         return $this->username;
+    }
+
+    /**
+     * @return Gender
+     */
+    public function getGender(): Gender
+    {
+        return $this->gender;
     }
 
     /**
