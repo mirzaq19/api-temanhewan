@@ -29,6 +29,11 @@ class UpdateUserService
             throw new TemanhewanException("User not found",1007);
         }
 
+        // check if current user is the same user
+        if(auth()->user()->getAuthIdentifier() != $user->getId()->id()){
+            throw new TemanhewanException("You are not authorized to update this user",1008);
+        }
+
         // update profile_image if provided
         $filename = $user->getProfileImage();
         if($request->getProfileImage()){
