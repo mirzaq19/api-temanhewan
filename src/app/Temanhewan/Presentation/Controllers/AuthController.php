@@ -99,7 +99,7 @@ class AuthController extends Controller
             return $this->error($e);
         }
 
-        return $this->successWithData($response);
+        return $this->successWithData($response)->withCookie($response->createCookies());
     }
 
     public function logout(): JsonResponse
