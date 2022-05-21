@@ -31,14 +31,9 @@ class PetController extends Controller
             'birthdate' => 'required|date',
             'race' => 'required',
             'gender' => 'required',
-            'user_id' => 'required'
         ];
 
-        $messages = [
-            'user_id.required' => 'Please send user_id'
-        ];
-
-        $validator = Validator::make($request->all(),$rules,$messages);
+        $validator = Validator::make($request->all(),$rules);
         if($validator->fails()) return $this->validationError($validator->errors());
 
         $input = new CreatePetRequest(
@@ -48,7 +43,6 @@ class PetController extends Controller
             birthdate: $request->input("birthdate"),
             race: $request->input("race"),
             gender: $request->input("gender"),
-            user_id: $request->input('user_id')
         );
 
         $service = new CreatePetService(

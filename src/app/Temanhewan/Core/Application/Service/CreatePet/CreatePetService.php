@@ -26,7 +26,7 @@ class CreatePetService{
     public function execute(CreatePetRequest $request){
 
         // check if user is existed
-        $userId = new UserId($request->getUserId());
+        $userId = new UserId(auth()->user()->getAuthIdentifier());
         $user = $this->userRepository->byId($userId);
 
         if(!$user){

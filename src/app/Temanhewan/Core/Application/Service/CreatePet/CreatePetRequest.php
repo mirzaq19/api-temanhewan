@@ -12,7 +12,6 @@ class CreatePetRequest{
         public string $birthdate,
         public string $race,
         public string $gender,
-        public string $user_id
     ){}
 
     /**
@@ -61,13 +60,5 @@ class CreatePetRequest{
     public function getGender(): string
     {
         return $this->gender;
-    }
-
-    /**
-     * @return string
-     */
-    public function getUserId(): string
-    {
-        return $this->user_id;
     }
 }
