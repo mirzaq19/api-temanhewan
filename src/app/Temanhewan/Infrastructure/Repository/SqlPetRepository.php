@@ -79,4 +79,9 @@ class SqlPetRepository implements PetRepository{
             'updated_at' => now()
         ]);
     }
+
+    public function delete(Pet $pet): void
+    {
+        DB::table('pets')->delete($pet->getId()->id());
+    }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Temanhewan\Presentation\Controllers;
 
+use App\Temanhewan\Core\Application\Service\DeletePet\DeletePetRequest;
+use App\Temanhewan\Core\Application\Service\DeletePet\DeletePetService;
 use App\Temanhewan\Core\Application\Service\GetPet\GetPetRequest;
 use App\Temanhewan\Core\Application\Service\GetPet\GetPetService;
 use App\Temanhewan\Core\Application\Service\ListPet\ListPetRequest;
@@ -127,5 +129,34 @@ class PetController extends Controller
         return $this->successWithData($response);
     }
 
+    public function deletePet(Request $request): JsonResponse
+    {
+        $rules = [
+            'id' => 'required',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) return $this->validationError($validator->errors());
+
+        $input = new DeletePetRequest(
+            petId: $request->input("id"),
+        );
+
+        $service = new DeletePetService(
+            petRepository: $this->petRepository
+        );
+
+        $this->db_manager->begin();
+
+        try {
+            $service->execute($input);
+            $this->db_manager->commit();
+        } catch (Exception $e) {
+            $this->db_manager->rollback();
+            return $this->error($e);
+        }
+
+        return $this->success("Pet successfully deleted");
+    }
 
 }
