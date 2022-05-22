@@ -72,8 +72,7 @@ class User implements Authenticatable
      * Add pet to user
      * @param string $name
      * @param string $profile_image
-     * @param string $description
-     * @param DateTime $birthdate
+     * @param string|null $description
      * @param Race $race
      * @param Gender $gender
      * @return Pet
@@ -81,8 +80,7 @@ class User implements Authenticatable
     public function addPet(
         string $name,
         string $profile_image,
-        string $description,
-        DateTime $birthdate,
+        ?string $description,
         Race $race,
         Gender $gender,
     ): Pet
@@ -92,7 +90,6 @@ class User implements Authenticatable
             $name,
             $profile_image,
             $description,
-            $birthdate,
             $race,
             $gender,
             $this->getId(),

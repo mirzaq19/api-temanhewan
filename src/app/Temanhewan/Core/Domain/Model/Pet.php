@@ -10,7 +10,6 @@ class Pet
     private string $name;
     private ?string $profile_image;
     private ?string $description;
-    private DateTime $birthdate;
     private Race $race;
     private Gender $gender;
     private UserId $user_id;
@@ -20,7 +19,6 @@ class Pet
      * @param string $name
      * @param string|null $profile_image
      * @param string|null $description
-     * @param DateTime $birthdate
      * @param Race $race
      * @param Gender $gender
      * @param UserId $user_id
@@ -30,7 +28,6 @@ class Pet
         string $name,
         ?string $profile_image,
         ?string $description,
-        DateTime $birthdate,
         Race $race,
         Gender $gender,
         UserId $user_id)
@@ -39,7 +36,6 @@ class Pet
         $this->name = $name;
         $this->profile_image = $profile_image;
         $this->description = $description;
-        $this->birthdate = $birthdate;
         $this->race = $race;
         $this->gender = $gender;
         $this->user_id = $user_id;
@@ -75,14 +71,6 @@ class Pet
     public function getDescription(): ?string
     {
         return $this->description;
-    }
-
-    /**
-     * @return DateTime
-     */
-    public function getBirthdate(): DateTime
-    {
-        return $this->birthdate;
     }
 
     /**

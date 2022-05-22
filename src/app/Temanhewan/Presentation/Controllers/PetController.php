@@ -28,7 +28,6 @@ class PetController extends Controller
             'name' => 'required',
             'profile_image' => 'sometimes|image|max:1024',
             'description' => 'sometimes|max:255',
-            'birthdate' => 'required|date',
             'race' => 'required',
             'gender' => 'required',
         ];
@@ -38,9 +37,8 @@ class PetController extends Controller
 
         $input = new CreatePetRequest(
             name: $request->input("name"),
-            profile_image: $request->file("profile_image") ? $request->file("profile_image") : null,
-            description: $request->input("description") ? $request->input("description") : '-',
-            birthdate: $request->input("birthdate"),
+            profile_image: $request->file("profile_image") ?: null,
+            description: $request->input("description") ?: null,
             race: $request->input("race"),
             gender: $request->input("gender"),
         );

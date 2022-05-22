@@ -17,8 +17,7 @@ return new class extends Migration
             $table->uuid('id');
             $table->string('name');
             $table->string('profile_image');
-            $table->text('description');
-            $table->date('birthdate');
+            $table->text('description')->nullable();
             $table->string('race');
             $table->string('gender');
             $table->foreignUuid('user_id');

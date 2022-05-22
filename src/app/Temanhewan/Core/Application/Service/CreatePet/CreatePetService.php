@@ -48,7 +48,6 @@ class CreatePetService{
             $request->getName(),
             $filename,
             $request->getDescription(),
-            new DateTime($request->getBirthdate()),
             new Race($request->getRace()),
             new Gender($request->getGender()),
         );

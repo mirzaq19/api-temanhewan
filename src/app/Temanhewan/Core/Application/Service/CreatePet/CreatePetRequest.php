@@ -9,7 +9,6 @@ class CreatePetRequest{
         public string $name,
         public ?UploadedFile $profile_image,
         public ?string $description,
-        public string $birthdate,
         public string $race,
         public string $gender,
     ){}
@@ -36,14 +35,6 @@ class CreatePetRequest{
     public function getDescription(): ?string
     {
         return $this->description;
-    }
-
-    /**
-     * @return string
-     */
-    public function getBirthdate(): string
-    {
-        return $this->birthdate;
     }
 
     /**
