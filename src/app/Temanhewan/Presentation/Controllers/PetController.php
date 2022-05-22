@@ -51,13 +51,13 @@ class PetController extends Controller
         $this->db_manager->begin();
 
         try {
-            $service->execute($input);
+            $response = $service->execute($input);
             $this->db_manager->commit();
         }catch (Exception $e){
             $this->db_manager->rollback();
             return $this->error($e);
         }
 
-        return $this->success('Pet Added Successfully', 201);
+        return $this->successWithData($response,'Pet Added Successfully', 201);
     }
 }

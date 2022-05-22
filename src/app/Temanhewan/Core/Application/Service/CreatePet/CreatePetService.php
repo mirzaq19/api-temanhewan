@@ -23,7 +23,8 @@ class CreatePetService{
      * @throws TemanhewanException
      * @throws Exception
      */
-    public function execute(CreatePetRequest $request){
+    public function execute(CreatePetRequest $request): CreatePetResponse
+    {
 
         // check if user is existed
         $userId = new UserId(auth()->user()->getAuthIdentifier());
@@ -41,7 +42,7 @@ class CreatePetService{
             // Move profile_image to public/pet/profile_images
             Storage::disk('public')->putFileAs('pet/profile_images', $request->getProfileImage(), $filename);
         }else{
-            $filename = 'default.png';
+            $filename = 'pet_default.png';
         }
 
         $newPet = $user->addPet(
@@ -53,5 +54,6 @@ class CreatePetService{
         );
 
         $this->petRepository->save($newPet);
+        return new CreatePetResponse($newPet);
     }
 }
