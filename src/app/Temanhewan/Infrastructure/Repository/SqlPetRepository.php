@@ -4,6 +4,7 @@ namespace App\Temanhewan\Infrastructure\Repository;
 use App\Temanhewan\Core\Domain\Exception\TemanhewanException;
 use App\Temanhewan\Core\Domain\Model\Gender;
 use App\Temanhewan\Core\Domain\Model\Race;
+use App\Temanhewan\Core\Domain\Model\UserId;
 use DateTime;
 use App\Temanhewan\Core\Domain\Repository\PetRepository;
 use App\Temanhewan\Core\Domain\Model\PetId;
@@ -40,7 +41,7 @@ class SqlPetRepository implements PetRepository{
             $pet_row->description,
             new Race($pet_row->race),
             new Gender($pet_row->gender),
-            $pet_row->user_id
+            new UserId($pet_row->user_id)
         );
     }
 

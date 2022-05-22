@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Temanhewan\Core\Application\Service\CreatePet;
+namespace App\Temanhewan\Core\Application\Service\GetPet;
 
 use App\Temanhewan\Core\Domain\Model\Pet;
 use JsonSerializable;
 
-class CreatePetResponse implements JsonSerializable
+class GetPetResponse implements JsonSerializable
 {
     public function __construct(
         private Pet $pet
