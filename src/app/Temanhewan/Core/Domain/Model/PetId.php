@@ -19,7 +19,7 @@ class PetId
         if (Uuid::isValid($id)) {
             $this->id = $id;
         } else {
-            throw new InvalidArgumentException("Invalid UserId format.",1004);
+            throw new InvalidArgumentException("Invalid PetId format.",1004);
         }
     }
 
