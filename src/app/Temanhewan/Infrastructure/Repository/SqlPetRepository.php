@@ -30,6 +30,26 @@ class SqlPetRepository implements PetRepository{
 
     /**
      * @throws TemanhewanException
+     */
+    public function listPet(UserId $userId,int $offset, int $limit): array
+    {
+        $pets_row = DB::table('pets')
+                    ->where('user_id','=',$userId->id())
+                    ->offset($offset)
+                    ->limit($limit)
+                    ->get();
+
+        $pets = [];
+
+        foreach($pets_row as $pet){
+            $pets[] = $this->convertRowToPet($pet);
+        }
+
+        return $pets;
+    }
+
+    /**
+     * @throws TemanhewanException
      * @throws Exception
      */
     public function convertRowToPet($pet_row): Pet

@@ -18,4 +18,5 @@ Route::prefix('user')->group(function () {
 Route::middleware('auth:sanctum')->prefix('pet')->group(function () {
     Route::post('create', [PetController::class, 'createPet']);
     Route::post('get', [PetController::class, 'getPet']);
+    Route::post('list', [PetController::class, 'listPet']);
 });

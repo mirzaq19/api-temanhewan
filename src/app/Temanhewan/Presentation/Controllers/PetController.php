@@ -4,6 +4,8 @@ namespace App\Temanhewan\Presentation\Controllers;
 
 use App\Temanhewan\Core\Application\Service\GetPet\GetPetRequest;
 use App\Temanhewan\Core\Application\Service\GetPet\GetPetService;
+use App\Temanhewan\Core\Application\Service\ListPet\ListPetRequest;
+use App\Temanhewan\Core\Application\Service\ListPet\ListPetService;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -77,6 +79,38 @@ class PetController extends Controller
         );
 
         $service = new GetPetService(
+            petRepository: $this->petRepository
+        );
+
+        $this->db_manager->begin();
+
+        try {
+            $response = $service->execute($input);
+            $this->db_manager->commit();
+        }catch (Exception $e){
+            $this->db_manager->rollback();
+            return $this->error($e);
+        }
+
+        return $this->successWithData($response);
+    }
+
+    public function listPet(Request $request): JsonResponse
+    {
+        $rules = [
+            'offset' => 'required',
+            'limit' => 'required'
+        ];
+
+        $validator = Validator::make($request->all(),$rules);
+        if($validator->fails()) return $this->validationError($validator->errors());
+
+        $input = new ListPetRequest(
+            offset: $request->input("offset"),
+            limit: $request->input("limit"),
+        );
+
+        $service = new ListPetService(
             petRepository: $this->petRepository
         );
 
