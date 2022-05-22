@@ -15,6 +15,7 @@ services:
     networks:
       - nginx-proxy-network
       - temanhewan-network
+
   temanhewan-db:
     image: mariadb:latest
     container_name: temanhewan-db
@@ -24,11 +25,17 @@ services:
       - "3306:3306"
     volumes:
       - temanhewandb:/var/lib/mysql
-    environment:
-      - MYSQL_DATABASE=temanhewandb
-      - MYSQL_USER=gcoder
-      - MYSQL_PASSWORD=secret123#
-      - MYSQL_ROOT_PASSWORD=secret123#
+    env_file: db.env
+    networks:
+      - temanhewan-network
+
+  temanhewan-phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: temanhewan-phpmyadmin
+    restart: always
+    ports:
+      - "8080:80"
+    env_file: pma.env
     networks:
       - temanhewan-network
 
