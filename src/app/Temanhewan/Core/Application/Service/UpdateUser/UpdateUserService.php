@@ -42,7 +42,7 @@ class UpdateUserService
             $filename = $user->getUsername(). '-' . time(). rand(1,100) . '.' . $extension;
 
             // replacing old profile_image with new one
-            if ($user->getProfileImage() != 'default.png') {
+            if ($user->getProfileImage() != 'user_default.png') {
                 Storage::disk('public')->delete('user/profile_images/'.$user->getProfileImage());
             }
             Storage::disk('public')->putFileAs('user/profile_images', $request->getProfileImage(), $filename);

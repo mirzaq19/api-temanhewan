@@ -26,7 +26,7 @@ class CreateUserService
             // Move profile_image to public/user/profile_images
             Storage::disk('public')->putFileAs('user/profile_images', $request->getProfileImage(), $filename);
         }else{
-            $filename = 'default.png';
+            $filename = 'user_default.png';
         }
 
         // Convert request to user
