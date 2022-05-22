@@ -2,6 +2,7 @@
 
 namespace App\Temanhewan\Presentation\Controllers;
 
+use App\Temanhewan\Core\Application\Service\GetUser\GetUserService;
 use App\Temanhewan\Core\Application\Service\UpdateUser\UpdateUserRequest;
 use App\Temanhewan\Core\Application\Service\UpdateUser\UpdateUserService;
 use Exception;
@@ -57,5 +58,22 @@ class UserController extends Controller
         }
 
         return $this->success();
+    }
+
+    public function get(): jsonResponse
+    {
+        $service = new GetUserService($this->userRepository);
+
+        $this->db_manager->begin();
+
+        try {
+            $response = $service->execute();
+            $this->db_manager->commit();
+        }catch (Exception $e){
+            $this->db_manager->rollback();
+            return $this->error($e);
+        }
+
+        return $this->successWithData($response);
     }
 }
