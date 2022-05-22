@@ -44,7 +44,7 @@ class UpdatePetService
         if($request->getProfileImage()){
             // Get filename and extension of profile_image
             $extension = $request->getProfileImage()->getClientOriginalExtension();
-            $filename = $user->getUsername(). '-' . $request->getName() . '-' . time(). rand(1,100) . '.' . $extension;
+            $filename = $user->getUsername(). '-' . $request->getRace() . '-' . time(). rand(1,100) . '.' . $extension;
 
             // replacing old profile_image with new one
             if ($pet->getProfileImage() != 'pet_default.png') {

@@ -37,7 +37,7 @@ class CreatePetService{
         if(!is_null($request->getProfileImage())){
             // Get filename and extension of profile_image
             $extension = $request->getProfileImage()->getClientOriginalExtension();
-            $filename = $user->getUsername(). '-' . $request->getName() . '-' . time(). rand(1,100) . '.' . $extension;
+            $filename = $user->getUsername(). '-' . $request->getRace() . '-' . time(). rand(1,100) . '.' . $extension;
 
             // Move profile_image to public/pet/profile_images
             Storage::disk('public')->putFileAs('pet/profile_images', $request->getProfileImage(), $filename);
