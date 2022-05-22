@@ -7,7 +7,6 @@ use Illuminate\Http\UploadedFile;
 class UpdateUserRequest
 {
     public function __construct(
-       private string $id,
        private string $name,
        private ?UploadedFile $profile_image,
        private string $birthdate,
@@ -15,14 +14,6 @@ class UpdateUserRequest
        private string $address,
        private string $phone
     ){ }
-
-    /**
-     * @return string
-     */
-    public function getId(): string
-    {
-        return $this->id;
-    }
 
     /**
      * @return string

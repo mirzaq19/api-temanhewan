@@ -24,7 +24,6 @@ class UserController extends Controller
     public function update(Request $request): jsonResponse
     {
         $rules = [
-            'user_id' => 'required',
             'name' => 'required',
             'profile_image' => 'sometimes|image|max:1024',
             'birthdate' => 'required|date',
@@ -37,7 +36,6 @@ class UserController extends Controller
         if($validator->fails()) return $this->validationError($validator->errors());
 
         $input = new UpdateUserRequest(
-            id: $request->input('user_id'),
             name: $request->input("name"),
             profile_image: $request->file("profile_image") ? $request->file("profile_image") : null,
             birthdate: $request->input("birthdate"),

@@ -20,10 +20,10 @@ class UpdateUserService
      * @throws TemanhewanException
      * @throws Exception
      */
-    public function execute(UpdateUserRequest $request)
+    public function execute(UpdateUserRequest $request): void
     {
         // check if user exist
-        $userId = new userId($request->getId());
+        $userId = new userId(auth()->user()->getAuthIdentifier());
         $user = $this->userRepository->ById($userId);
         if(!$user){
             throw new TemanhewanException("User not found",1007);
