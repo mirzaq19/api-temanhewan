@@ -42,6 +42,46 @@ class Pet
     }
 
     /**
+     * @param string $name
+     */
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @param string|null $profile_image
+     */
+    public function setProfileImage(?string $profile_image): void
+    {
+        $this->profile_image = $profile_image;
+    }
+
+    /**
+     * @param string|null $description
+     */
+    public function setDescription(?string $description): void
+    {
+        $this->description = $description;
+    }
+
+    /**
+     * @param Race $race
+     */
+    public function setRace(Race $race): void
+    {
+        $this->race = $race;
+    }
+
+    /**
+     * @param Gender $gender
+     */
+    public function setGender(Gender $gender): void
+    {
+        $this->gender = $gender;
+    }
+
+    /**
      * @return string|null
      */
     public function getProfileImage(): ?string

@@ -84,4 +84,17 @@ class SqlPetRepository implements PetRepository{
     {
         DB::table('pets')->delete($pet->getId()->id());
     }
+
+    public function update(Pet $pet): void
+    {
+        DB::table('pets')
+            ->where('id',$pet->getId()->id())
+            ->update([
+                'name' => $pet->getName(),
+                'profile_image' => $pet->getProfileImage(),
+                'description' => $pet->getDescription(),
+                'gender' => $pet->getGender()->getValue(),
+                'race' => $pet->getRace()->getValue()
+            ]);
+    }
 }
