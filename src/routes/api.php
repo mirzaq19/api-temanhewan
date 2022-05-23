@@ -11,5 +11,14 @@
 |
 */
 
+use Illuminate\Support\Facades\Route;
+
+Route::post('/', function(){
+    return response()->json([
+        "status" => true,
+        "message" => "success"
+    ]);
+});
+
 $path = app_path('Temanhewan/Presentation/Routes/api.php');
 require "{$path}";
