@@ -13,7 +13,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::post('/', function(){
+Route::get('/', function(){
     return response()->json([
         "status" => true,
         "message" => "success"
