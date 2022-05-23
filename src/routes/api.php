@@ -18,7 +18,7 @@ Route::get('/', function(){
         "status" => true,
         "message" => "success"
     ]);
-});
+})->middleware('cors');
 
 $path = app_path('Temanhewan/Presentation/Routes/api.php');
 require "{$path}";
