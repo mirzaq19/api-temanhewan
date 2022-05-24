@@ -8,7 +8,7 @@ use App\Temanhewan\Core\Domain\Model\UserId;
 
 interface ForumRepository
 {
-    public function byId(ForumId $forumId): Forum;
+    public function byId(ForumId $forumId): ?Forum;
     public function save(Forum $forum): void;
     public function update(Forum $forum): void;
     public function delete(Forum $forum): void;
