@@ -27,4 +27,5 @@ Route::middleware('auth:sanctum')->prefix('pet')->group(function () {
 
 Route::middleware('auth:sanctum')->prefix('forum')->group(function () {
     Route::post('create', [ForumController::class, 'createForum']);
+    Route::post('my', [ForumController::class, 'getMyForum']);
 });

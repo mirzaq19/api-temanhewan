@@ -44,6 +44,19 @@ class SqlForumRepository implements ForumRepository
         ]);
     }
 
+    public function getForumImages(ForumId $forumId): array
+    {
+        $forum_images_row = DB::table('forum_images')->where('forum_id', $forumId->id())->get();
+
+        $forum_images = [];
+
+        foreach ($forum_images_row as $forum_image_row) {
+            $forum_images[] = $forum_image_row->filename;
+        }
+
+        return $forum_images;
+    }
+
     public function save(Forum $forum): void
     {
         DB::table('forums')->insert([
