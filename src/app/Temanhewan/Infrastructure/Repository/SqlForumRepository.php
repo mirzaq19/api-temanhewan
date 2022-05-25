@@ -93,10 +93,12 @@ class SqlForumRepository implements ForumRepository
         return $forums;
     }
 
-    public function listForumByUser(UserId $userId): array
+    public function listForumByUser(UserId $userId, int $offset, int $limit): array
     {
         $forums_row = DB::table('forums')
             ->where('user_id', $userId->id())
+            ->offset($offset)
+            ->limit($limit)
             ->get();
 
         $forums = [];

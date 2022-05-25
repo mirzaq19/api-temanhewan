@@ -13,5 +13,5 @@ interface ForumRepository
     public function update(Forum $forum): void;
     public function delete(Forum $forum): void;
     public function listForum(int $offset, int $limit): array;
-    public function listForumByUser(UserId $userId): array;
+    public function listForumByUser(UserId $userId, int $offset, int $limit): array;
 }
