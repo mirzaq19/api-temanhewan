@@ -9,6 +9,7 @@ class Forum
     private string $title;
     private string $subtitle;
     private string $content;
+    private UserId $user_id;
 
     /**
      * @param ForumId $id
@@ -16,14 +17,24 @@ class Forum
      * @param string $title
      * @param string $subtitle
      * @param string $content
+     * @param UserId $user_id
      */
-    public function __construct(ForumId $id, string $slug, string $title, string $subtitle, string $content)
+    public function __construct(ForumId $id, string $slug, string $title, string $subtitle, string $content, UserId $user_id)
     {
         $this->id = $id;
         $this->slug = $slug;
         $this->title = $title;
         $this->subtitle = $subtitle;
         $this->content = $content;
+        $this->user_id = $user_id;
+    }
+
+    /**
+     * @return UserId
+     */
+    public function getUserId(): UserId
+    {
+        return $this->user_id;
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Temanhewan\Core\Domain\Model;
 
+use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Contracts\Auth\Authenticatable;
 
@@ -92,6 +93,24 @@ class User implements Authenticatable
             $description,
             $race,
             $gender,
+            $this->getId(),
+        );
+    }
+
+    /**
+     * @param string $title
+     * @param string $subtitle
+     * @param string $content
+     * @return Forum
+     */
+    public function addForum(string $title, string $subtitle, string $content): Forum
+    {
+        return new Forum(
+            new ForumId(),
+            Str::slug($title),
+            $title,
+            $subtitle,
+            $content,
             $this->getId(),
         );
     }

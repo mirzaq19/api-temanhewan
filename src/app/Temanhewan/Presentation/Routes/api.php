@@ -1,6 +1,7 @@
 <?php
 
 use App\Temanhewan\Presentation\Controllers\AuthController;
+use App\Temanhewan\Presentation\Controllers\ForumController;
 use App\Temanhewan\Presentation\Controllers\PetController;
 use App\Temanhewan\Presentation\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -22,4 +23,8 @@ Route::middleware('auth:sanctum')->prefix('pet')->group(function () {
     Route::post('update',[PetController::class,'updatePet']);
     Route::post('list', [PetController::class, 'listPet']);
     Route::post('delete', [PetController::class, 'deletePet']);
+});
+
+Route::middleware('auth:sanctum')->prefix('forum')->group(function () {
+    Route::post('create', [ForumController::class, 'createForum']);
 });
