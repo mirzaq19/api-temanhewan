@@ -112,6 +112,7 @@ class SqlForumRepository implements ForumRepository
             ->where('user_id', $userId->id())
             ->offset($offset)
             ->limit($limit)
+            ->orderByDesc('created_at')
             ->get();
 
         $forums = [];
