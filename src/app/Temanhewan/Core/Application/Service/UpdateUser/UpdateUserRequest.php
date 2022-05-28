@@ -11,7 +11,6 @@ class UpdateUserRequest
        private ?UploadedFile $profile_image,
        private string $gender,
        private string $birthdate,
-       private ?string $password,
        private string $address,
        private string $phone
     ){ }
@@ -46,14 +45,6 @@ class UpdateUserRequest
     public function getBirthdate(): string
     {
         return $this->birthdate;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getPassword(): ?string
-    {
-        return $this->password;
     }
 
     /**

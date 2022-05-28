@@ -53,7 +53,6 @@ class UpdateUserService
         $user->setProfileImage($filename);
         $user->setGender(new Gender($request->getGender()));
         $user->setBirthdate(new DateTime($request->getBirthdate()));
-        $user->setHashpassword($request->getPassword() ? Hash::make($request->getPassword()) : $user->getHashPassword());
         $user->setAddress($request->getAddress());
         $user->setPhone($request->getPhone());
 

@@ -29,7 +29,6 @@ class UserController extends Controller
             'profile_image' => 'sometimes|image|max:1024',
             'gender' => 'required',
             'birthdate' => 'required|date',
-            'password' => 'sometimes|string|min:6|confirmed',
             'address' => 'required',
             'phone' => 'required',
         ];
@@ -42,7 +41,6 @@ class UserController extends Controller
             profile_image: $request->file("profile_image") ? $request->file("profile_image") : null,
             gender: $request->input("gender"),
             birthdate: $request->input("birthdate"),
-            password: $request->input("password"),
             address: $request->input("address"),
             phone: $request->input("phone"),
         );
