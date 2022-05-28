@@ -6,6 +6,8 @@ use App\Temanhewan\Core\Domain\Model\Forum;
 use App\Temanhewan\Core\Domain\Model\ForumId;
 use App\Temanhewan\Core\Domain\Model\UserId;
 use App\Temanhewan\Core\Domain\Repository\ForumRepository;
+use DateTime;
+use Exception;
 use Illuminate\Support\Facades\DB;
 
 class SqlForumRepository implements ForumRepository
@@ -22,9 +24,12 @@ class SqlForumRepository implements ForumRepository
         return $this->convertRowToForum($forum_row);
     }
 
+    /**
+     * @throws Exception
+     */
     public function convertRowToForum($forum_row): Forum
     {
-        return new Forum(
+        $forum = new Forum(
             new ForumId($forum_row->id),
             $forum_row->slug,
             $forum_row->title,
@@ -32,6 +37,9 @@ class SqlForumRepository implements ForumRepository
             $forum_row->content,
             new UserId($forum_row->user_id)
         );
+        $forum->setCreatedAt(new DateTime($forum_row->created_at));
+        $forum->setUpdatedAt(new DateTime($forum_row->updated_at));
+        return $forum;
     }
 
     public function saveForumImage(ForumId $forumId, string $filename): void

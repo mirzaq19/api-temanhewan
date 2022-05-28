@@ -30,6 +30,8 @@ class GetMyForumResponse implements JsonSerializable
             'subtitle' => $this->forum->getSubtitle(),
             'content' => $this->forum->getContent(),
             'forum_images' => $this->getForumImageUrl($this->forumImages),
+            'created_at' => $this->forum->getCreatedAt()->format('Y-m-d H:i:s'),
+            'updated_at' => $this->forum->getUpdatedAt()->format('Y-m-d H:i:s'),
         ];
     }
 }
