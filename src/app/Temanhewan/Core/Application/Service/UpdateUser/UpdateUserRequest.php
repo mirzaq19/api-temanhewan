@@ -9,6 +9,7 @@ class UpdateUserRequest
     public function __construct(
        private string $name,
        private ?UploadedFile $profile_image,
+       private string $gender,
        private string $birthdate,
        private ?string $password,
        private string $address,
@@ -29,6 +30,14 @@ class UpdateUserRequest
     public function getProfileImage(): ?UploadedFile
     {
         return $this->profile_image;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGender(): string
+    {
+        return $this->gender;
     }
 
     /**

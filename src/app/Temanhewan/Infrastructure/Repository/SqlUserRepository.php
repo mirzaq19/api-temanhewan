@@ -114,6 +114,7 @@ class SqlUserRepository implements UserRepository
             ->update([
             'name' => $user->getName(),
             'profile_image' => $user->getProfileImage(),
+            'gender' => $user->getGender()->getValue(),
             'birthdate' => $user->getBirthDate()->format('Y-m-d'),
             'password' => $user->getHashPassword(),
             'address' => $user->getAddress(),

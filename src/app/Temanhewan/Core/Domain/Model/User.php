@@ -140,6 +140,14 @@ class User implements Authenticatable
     }
 
     /**
+     * @param Gender $gender
+     */
+    public function setGender(Gender $gender): void
+    {
+        $this->gender = $gender;
+    }
+
+    /**
      * @param DateTime $birthdate
      */
     public function setBirthdate(DateTime $birthdate): void

@@ -27,6 +27,7 @@ class UserController extends Controller
         $rules = [
             'name' => 'required',
             'profile_image' => 'sometimes|image|max:1024',
+            'gender' => 'required',
             'birthdate' => 'required|date',
             'password' => 'sometimes|string|min:6|confirmed',
             'address' => 'required',
@@ -39,6 +40,7 @@ class UserController extends Controller
         $input = new UpdateUserRequest(
             name: $request->input("name"),
             profile_image: $request->file("profile_image") ? $request->file("profile_image") : null,
+            gender: $request->input("gender"),
             birthdate: $request->input("birthdate"),
             password: $request->input("password"),
             address: $request->input("address"),

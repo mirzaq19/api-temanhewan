@@ -2,6 +2,7 @@
 
 namespace App\Temanhewan\Core\Application\Service\UpdateUser;
 
+use App\Temanhewan\Core\Domain\Model\Gender;
 use App\Temanhewan\Core\Domain\Model\UserId;
 use App\Temanhewan\Core\Domain\Exception\TemanhewanException;
 use App\Temanhewan\Core\Domain\Repository\UserRepository;
@@ -50,6 +51,7 @@ class UpdateUserService
 
         $user->setName($request->getName());
         $user->setProfileImage($filename);
+        $user->setGender(new Gender($request->getGender()));
         $user->setBirthdate(new DateTime($request->getBirthdate()));
         $user->setHashpassword($request->getPassword() ? Hash::make($request->getPassword()) : $user->getHashPassword());
         $user->setAddress($request->getAddress());
