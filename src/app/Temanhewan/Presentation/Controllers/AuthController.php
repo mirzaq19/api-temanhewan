@@ -4,6 +4,8 @@ namespace App\Temanhewan\Presentation\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Shared\Service\DBManager;
+use App\Temanhewan\Core\Application\Service\ChangePassword\ChangePasswordRequest;
+use App\Temanhewan\Core\Application\Service\ChangePassword\ChangePasswordService;
 use App\Temanhewan\Core\Application\Service\CreateUser\CreateUserRequest;
 use App\Temanhewan\Core\Application\Service\CreateUser\CreateUserService;
 use App\Temanhewan\Core\Application\Service\LoginUser\LoginUserRequest;
@@ -100,6 +102,36 @@ class AuthController extends Controller
         }
 
         return $this->successWithData($response)->withCookie($response->createCookies());
+    }
+
+    public function changePassword(Request $request): JsonResponse
+    {
+        $rules = [
+            'old_password' => 'required|current_password',
+            'password' => 'required|string|min:6|confirmed'
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if($validator->fails()) return $this->validationError($validator->errors());
+
+        $input = new ChangePasswordRequest(
+            old_password: $request->input("old_password"),
+            password: $request->input("password"),
+        );
+
+        $service = new ChangePasswordService($this->userRepository);
+
+        $this->db_manager->begin();
+
+        try {
+            $service->execute($input);
+            $this->db_manager->commit();
+        }catch (Exception $e){
+            $this->db_manager->rollback();
+            return $this->error($e);
+        }
+
+        return $this->success();
     }
 
     public function logout(): JsonResponse

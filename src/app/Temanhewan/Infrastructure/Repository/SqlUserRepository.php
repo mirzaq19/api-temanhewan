@@ -121,4 +121,14 @@ class SqlUserRepository implements UserRepository
             'updated_at' => now()
         ]);
     }
+
+    public function changePassword(User $user, string $newPassword): void
+    {
+        DB::table('users')
+            ->where('id', $user->getId()->id())
+            ->update([
+                'password' => Hash::make($newPassword),
+                'updated_at' => now()
+            ]);
+    }
 }
