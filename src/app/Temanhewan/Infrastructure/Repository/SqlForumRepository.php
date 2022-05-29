@@ -99,6 +99,7 @@ class SqlForumRepository implements ForumRepository
     public function delete(Forum $forum): void
     {
         DB::table('forums')->delete($forum->getId()->id());
+        DB::table('forum_images')->where('forum_id', $forum->getId()->id())->delete();
     }
 
     /**

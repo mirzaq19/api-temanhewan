@@ -32,5 +32,6 @@ Route::prefix('forum')->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('create', [ForumController::class, 'createForum']);
         Route::post('my', [ForumController::class, 'getMyForum']);
+        Route::post('delete', [ForumController::class, 'deleteForum']);
     });
 });
