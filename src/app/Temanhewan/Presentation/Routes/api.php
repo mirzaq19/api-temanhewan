@@ -26,9 +26,11 @@ Route::middleware('auth:sanctum')->prefix('pet')->group(function () {
     Route::post('delete', [PetController::class, 'deletePet']);
 });
 
-Route::middleware('auth:sanctum')->prefix('forum')->group(function () {
-    Route::post('create', [ForumController::class, 'createForum']);
-    Route::post('my', [ForumController::class, 'getMyForum']);
+Route::prefix('forum')->group(function () {
     Route::post('get', [ForumController::class, 'getForum']);
     Route::post('public', [ForumController::class, 'getPublicForum']);
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::post('create', [ForumController::class, 'createForum']);
+        Route::post('my', [ForumController::class, 'getMyForum']);
+    });
 });
