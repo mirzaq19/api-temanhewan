@@ -107,7 +107,7 @@ class User implements Authenticatable
     {
         return new Forum(
             new ForumId(),
-            Str::slug($title),
+            Str::slug(substr($title,0,100)). '-' . rand(1, 1000),
             $title,
             $subtitle,
             $content,
