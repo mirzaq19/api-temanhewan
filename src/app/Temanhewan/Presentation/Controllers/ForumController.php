@@ -10,6 +10,8 @@ use App\Temanhewan\Core\Application\Service\GetForum\GetForumRequest;
 use App\Temanhewan\Core\Application\Service\GetForum\GetForumService;
 use App\Temanhewan\Core\Application\Service\GetMyForum\GetMyForumRequest;
 use App\Temanhewan\Core\Application\Service\GetMyForum\GetMyForumService;
+use App\Temanhewan\Core\Application\Service\GetPublicForum\GetPublicForumRequest;
+use App\Temanhewan\Core\Application\Service\GetPublicForum\GetPublicForumService;
 use App\Temanhewan\Core\Domain\Repository\ForumRepository;
 use App\Temanhewan\Core\Domain\Repository\UserRepository;
 use Exception;
@@ -108,6 +110,36 @@ class ForumController extends Controller
         );
 
         $service = new GetMyForumService($this->forumRepository);
+
+        $this->db_manager->begin();
+
+        try {
+            $response = $service->execute($input);
+            $this->db_manager->commit();
+        }catch (Exception $e){
+            $this->db_manager->rollback();
+            return $this->error($e);
+        }
+
+        return $this->successWithData($response);
+    }
+
+    public function getPublicForum(Request $request): JsonResponse
+    {
+        $rules = [
+            'offset' => 'required|integer',
+            'limit' => 'required|integer'
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if($validator->fails()) return $this->validationError($validator->errors());
+
+        $input = new GetPublicForumRequest(
+            offset: $request->input("offset"),
+            limit: $request->input("limit"),
+        );
+
+        $service = new GetPublicForumService($this->forumRepository);
 
         $this->db_manager->begin();
 

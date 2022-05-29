@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\DB;
 class SqlForumRepository implements ForumRepository
 {
 
+    /**
+     * @throws Exception
+     */
     public function byId(ForumId $forumId): ?Forum
     {
         $forum_row = DB::table('forums')->where('id', $forumId->id())->first();
@@ -98,11 +101,15 @@ class SqlForumRepository implements ForumRepository
         DB::table('forums')->delete($forum->getId()->id());
     }
 
+    /**
+     * @throws Exception
+     */
     public function listForum(int $offset, int $limit): array
     {
         $forums_row = DB::table('forums')
             ->offset($offset)
             ->limit($limit)
+            ->orderByDesc('created_at')
             ->get();
 
         $forums = [];
@@ -114,6 +121,9 @@ class SqlForumRepository implements ForumRepository
         return $forums;
     }
 
+    /**
+     * @throws Exception
+     */
     public function listForumByUser(UserId $userId, int $offset, int $limit): array
     {
         $forums_row = DB::table('forums')
