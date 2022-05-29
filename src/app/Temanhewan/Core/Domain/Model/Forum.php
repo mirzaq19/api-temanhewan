@@ -34,6 +34,30 @@ class Forum
     }
 
     /**
+     * @param string $title
+     */
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+    }
+
+    /**
+     * @param string $subtitle
+     */
+    public function setSubtitle(string $subtitle): void
+    {
+        $this->subtitle = $subtitle;
+    }
+
+    /**
+     * @param string $content
+     */
+    public function setContent(string $content): void
+    {
+        $this->content = $content;
+    }
+
+    /**
      * @return UserId
      */
     public function getUserId(): UserId
