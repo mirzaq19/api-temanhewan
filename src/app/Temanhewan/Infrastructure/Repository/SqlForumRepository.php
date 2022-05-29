@@ -55,6 +55,12 @@ class SqlForumRepository implements ForumRepository
         ]);
     }
 
+    public function isForumImageExist(string $filename): bool
+    {
+        $forum_image_row = DB::table('forum_images')->where('filename', $filename)->first();
+        return $forum_image_row !== null;
+    }
+
     public function getForumImages(ForumId $forumId): array
     {
         $forum_images_row = DB::table('forum_images')->where('forum_id', $forumId->id())->get();
@@ -66,6 +72,13 @@ class SqlForumRepository implements ForumRepository
         }
 
         return $forum_images;
+    }
+
+    public function deleteForumImage(string $filename): void
+    {
+        DB::table('forum_images')
+            ->where('filename', $filename)
+            ->delete();
     }
 
     public function save(Forum $forum): void

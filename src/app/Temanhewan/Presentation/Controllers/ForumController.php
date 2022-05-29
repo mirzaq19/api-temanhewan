@@ -8,6 +8,8 @@ use App\Temanhewan\Core\Application\Service\CreateForum\CreateForumRequest;
 use App\Temanhewan\Core\Application\Service\CreateForum\CreateForumService;
 use App\Temanhewan\Core\Application\Service\DeleteForum\DeleteForumRequest;
 use App\Temanhewan\Core\Application\Service\DeleteForum\DeleteForumService;
+use App\Temanhewan\Core\Application\Service\DeleteForumImage\DeleteForumImageRequest;
+use App\Temanhewan\Core\Application\Service\DeleteForumImage\DeleteForumImageService;
 use App\Temanhewan\Core\Application\Service\GetForum\GetForumRequest;
 use App\Temanhewan\Core\Application\Service\GetForum\GetForumService;
 use App\Temanhewan\Core\Application\Service\GetMyForum\GetMyForumRequest;
@@ -210,6 +212,36 @@ class ForumController extends Controller
         );
 
         $service = new DeleteForumService(
+            $this->forumRepository,
+        );
+
+        $this->db_manager->begin();
+
+        try {
+            $service->execute($input);
+            $this->db_manager->commit();
+        }catch (Exception $e){
+            $this->db_manager->rollback();
+            return $this->error($e);
+        }
+
+        return $this->success();
+    }
+
+    public function deleteForumImage(Request $request): JsonResponse
+    {
+        $rules = [
+            'image_name' => 'required',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if($validator->fails()) return $this->validationError($validator->errors());
+
+        $input = new DeleteForumImageRequest(
+            image_name: $request->input("image_name")
+        );
+
+        $service = new DeleteForumImageService(
             $this->forumRepository,
         );
 
