@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('forums', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('slug');
+            $table->string('slug')->unique();
             $table->string('title');
             $table->string('subtitle');
             $table->text('content');
