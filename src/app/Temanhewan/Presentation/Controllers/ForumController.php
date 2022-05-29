@@ -52,14 +52,14 @@ class ForumController extends Controller
         $this->db_manager->begin();
 
         try {
-            $service->execute($input);
+            $response = $service->execute($input);
             $this->db_manager->commit();
         }catch (Exception $e){
             $this->db_manager->rollback();
             return $this->error($e);
         }
 
-        return $this->success();
+        return $this->successWithData($response);
     }
 
     public function getForum(Request $request): JsonResponse

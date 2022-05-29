@@ -2,6 +2,7 @@
 
 namespace App\Temanhewan\Core\Application\Service\CreateForum;
 
+use App\Temanhewan\Core\Application\Service\GetMyForum\GetMyForumResponse;
 use App\Temanhewan\Core\Domain\Exception\TemanhewanException;
 use App\Temanhewan\Core\Domain\Model\UserId;
 use App\Temanhewan\Core\Domain\Repository\ForumRepository;
@@ -49,5 +50,9 @@ class CreateForumService
                 $this->forumRepository->saveForumImage($forum->getId(), $filename);
             }
         }
+
+        $newForum = $this->forumRepository->byId($forum->getId());
+        $newForumImages = $this->forumRepository->getForumImages($forum->getId());
+        return new GetMyForumResponse($newForum, $newForumImages);
     }
 }
