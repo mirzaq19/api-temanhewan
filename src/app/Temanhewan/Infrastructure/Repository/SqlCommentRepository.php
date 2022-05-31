@@ -70,6 +70,29 @@ class SqlCommentRepository implements CommentRepository
         ]);
     }
 
+    public function saveCommentImage(CommentId $commentId, string $filename): void
+    {
+        DB::table('comment_images')->insert([
+            'filename' => $filename,
+            'comment_id' => $commentId->id(),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+    }
+
+    public function getCommentImages(CommentId $commentId): array
+    {
+        $comment_images_row = DB::table('comment_images')->where('comment_id', $commentId->id())->get();
+
+        $comment_images = [];
+
+        foreach ($comment_images_row as $comment_image_row) {
+            $comment_images[] = $comment_image_row->filename;
+        }
+
+        return $comment_images;
+    }
+
     public function remove(Comment $comment): void
     {
         DB::table('comments')

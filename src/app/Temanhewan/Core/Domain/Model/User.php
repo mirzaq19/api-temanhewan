@@ -116,6 +116,21 @@ class User implements Authenticatable
     }
 
     /**
+     * @param string $content
+     * @param ForumId $forumId
+     * @return Comment
+     */
+    public function addComment(string $content, ForumId $forumId): Comment
+    {
+        return new Comment(
+            new CommentId(),
+            $content,
+            $this->getId(),
+            $forumId,
+        );
+    }
+
+    /**
      * @param string $hashPassword
      */
     public function setHashPassword(string $hashPassword): void

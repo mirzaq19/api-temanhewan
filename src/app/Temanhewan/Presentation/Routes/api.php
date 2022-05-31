@@ -1,6 +1,7 @@
 <?php
 
 use App\Temanhewan\Presentation\Controllers\AuthController;
+use App\Temanhewan\Presentation\Controllers\CommentController;
 use App\Temanhewan\Presentation\Controllers\ForumController;
 use App\Temanhewan\Presentation\Controllers\PetController;
 use App\Temanhewan\Presentation\Controllers\UserController;
@@ -35,5 +36,11 @@ Route::prefix('forum')->group(function () {
         Route::post('delete', [ForumController::class, 'deleteForum']);
         Route::post('delete-image', [ForumController::class, 'deleteForumImage']);
         Route::post('update', [ForumController::class, 'updateForum']);
+    });
+});
+
+Route::prefix('comment')->group(function () {
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::post('create', [CommentController::class, 'createComment']);
     });
 });
