@@ -101,5 +101,9 @@ class SqlCommentRepository implements CommentRepository
         DB::table('comments')
             ->where('id', $comment->getId()->id())
             ->delete();
+
+        DB::table('comment_images')
+            ->where('comment_id', $comment->getId()->id())
+            ->delete();
     }
 }
