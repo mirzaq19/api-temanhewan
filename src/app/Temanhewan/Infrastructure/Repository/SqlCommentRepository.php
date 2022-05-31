@@ -96,6 +96,16 @@ class SqlCommentRepository implements CommentRepository
         return $comment_images;
     }
 
+    public function update(Comment $comment): void
+    {
+        DB::table('comments')
+            ->where('id', $comment->getId()->id())
+            ->update([
+                'content' => $comment->getContent(),
+                'updated_at' => now(),
+            ]);
+    }
+
     public function remove(Comment $comment): void
     {
         DB::table('comments')

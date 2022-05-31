@@ -11,5 +11,6 @@ interface CommentRepository
     public function ById(CommentId $id): ?Comment;
     public function ByForumId(ForumId $forumId): array;
     public function save(Comment $comment): void;
+    public function update(Comment $comment): void;
     public function remove(Comment $comment): void;
 }
