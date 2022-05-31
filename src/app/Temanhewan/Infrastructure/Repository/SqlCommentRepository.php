@@ -83,6 +83,12 @@ class SqlCommentRepository implements CommentRepository
         ]);
     }
 
+    public function isCommentImageExist(string $filename): bool
+    {
+        $comment_image_row = DB::table('comment_images')->where('filename', $filename)->first();
+        return $comment_image_row !== null;
+    }
+
     public function getCommentImages(CommentId $commentId): array
     {
         $comment_images_row = DB::table('comment_images')->where('comment_id', $commentId->id())->get();
@@ -94,6 +100,11 @@ class SqlCommentRepository implements CommentRepository
         }
 
         return $comment_images;
+    }
+
+    public function deleteCommentImage(string $filename): void
+    {
+        DB::table('comment_images')->where('filename', $filename)->delete();
     }
 
     public function update(Comment $comment): void
