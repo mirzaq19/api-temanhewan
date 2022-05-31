@@ -7,6 +7,8 @@ use App\Temanhewan\Core\Application\Service\CreateComment\CreateCommentRequest;
 use App\Temanhewan\Core\Application\Service\CreateComment\CreateCommentService;
 use App\Temanhewan\Core\Application\Service\GetComment\GetCommentRequest;
 use App\Temanhewan\Core\Application\Service\GetComment\GetCommentService;
+use App\Temanhewan\Core\Application\Service\GetForumComments\GetForumCommentsRequest;
+use App\Temanhewan\Core\Application\Service\GetForumComments\GetForumCommentsService;
 use App\Temanhewan\Core\Domain\Repository\CommentRepository;
 use App\Temanhewan\Core\Domain\Repository\ForumRepository;
 use App\Temanhewan\Core\Domain\Repository\UserRepository;
@@ -75,6 +77,37 @@ class CommentController extends Controller
         );
 
         $service = new GetCommentService(
+            $this->userRepository,
+            $this->commentRepository,
+        );
+
+        $this->db_manager->begin();
+
+        try{
+            $response = $service->execute($input);
+            $this->db_manager->commit();
+        }catch(Exception $e){
+            $this->db_manager->rollback();
+            return $this->error($e->getMessage(), $e->getCode());
+        }
+
+        return $this->successWithData($response);
+    }
+
+    public function getForumComments(Request $request): JsonResponse
+    {
+        $rules = [
+            'forum_id' => 'required'
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if($validator->fails()) return $this->validationError($validator->errors());
+
+        $input = new GetForumCommentsRequest(
+            forum_id: $request->input("forum_id")
+        );
+
+        $service = new GetForumCommentsService(
             $this->userRepository,
             $this->commentRepository,
         );

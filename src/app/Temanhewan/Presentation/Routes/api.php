@@ -41,6 +41,7 @@ Route::prefix('forum')->group(function () {
 
 Route::prefix('comment')->group(function () {
     Route::post('get', [CommentController::class, 'getComment']);
+    Route::post('forum', [CommentController::class, 'getForumComments']);
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('create', [CommentController::class, 'createComment']);
     });

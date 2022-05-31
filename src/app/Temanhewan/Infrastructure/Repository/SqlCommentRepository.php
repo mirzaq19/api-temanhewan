@@ -48,7 +48,10 @@ class SqlCommentRepository implements CommentRepository
      */
     public function ByForumId(ForumId $forumId): array
     {
-        $comment_rows = DB::table('comments')->where('forum_id', $forumId->id())->get();
+        $comment_rows = DB::table('comments')
+            ->where('forum_id', $forumId->id())
+            ->orderByDesc('created_at')
+            ->get();
 
         $comments = [];
         foreach ($comment_rows as $comment_row) {
