@@ -33,6 +33,17 @@ class SqlConsultationRepository implements ConsultationRepository
         return $consultation;
     }
 
+    public function accept(Consultation $consultation): void
+    {
+        DB::table('consultations')
+            ->where('id', $consultation->getId()->id())
+            ->update([
+                'fee' => $consultation->getFee(),
+                'status' => ConsultationStatus::ACCEPTED,
+                'updated_at' => now()
+            ]);
+    }
+
     /**
      * @throws Exception
      */

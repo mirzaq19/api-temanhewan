@@ -55,5 +55,6 @@ Route::prefix('comment')->group(function () {
 Route::prefix('consultation')->group(function(){
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('create', [ConsultationController::class, 'createConsultation']);
+        Route::post('accept', [ConsultationController::class, 'acceptConsultation']);
     });
 });
