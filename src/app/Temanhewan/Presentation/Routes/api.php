@@ -11,6 +11,7 @@ Route::prefix('user')->group(function () {
     Route::post('register', [AuthController::class, 'createUser']);
     Route::post('login', [AuthController::class, 'login']);
     Route::get('unauthorized', [AuthController::class, 'unauthorized'])->name('login');
+    Route::post('public',[UserController::class, 'getPublicUser']);
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('change-password',[AuthController::class, 'changePassword']);
         Route::post('update', [UserController::class, 'update']);
