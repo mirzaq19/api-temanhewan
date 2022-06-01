@@ -44,6 +44,16 @@ class SqlConsultationRepository implements ConsultationRepository
             ]);
     }
 
+    public function reject(Consultation $consultation): void
+    {
+        DB::table('consultations')
+            ->where('id', $consultation->getId()->id())
+            ->update([
+                'status' => ConsultationStatus::REJECTED,
+                'updated_at' => now()
+            ]);
+    }
+
     public function paid(Consultation $consultation)
     {
         DB::table('consultations')

@@ -11,6 +11,8 @@ use App\Temanhewan\Core\Application\Service\CreateConsultation\CreateConsultatio
 use App\Temanhewan\Core\Application\Service\CreateConsultation\CreateConsultationService;
 use App\Temanhewan\Core\Application\Service\PaidConsultation\PaidConsultationRequest;
 use App\Temanhewan\Core\Application\Service\PaidConsultation\PaidConsultationService;
+use App\Temanhewan\Core\Application\Service\RejectConsultation\RejectConsultationRequest;
+use App\Temanhewan\Core\Application\Service\RejectConsultation\RejectConsultationService;
 use App\Temanhewan\Core\Domain\Repository\ConsultationRepository;
 use App\Temanhewan\Core\Domain\Repository\UserRepository;
 use Exception;
@@ -143,6 +145,37 @@ class ConsultationController extends Controller
         );
 
         $service = new CompleteConsultationService(
+            $this->userRepository,
+            $this->consultationRepository,
+        );
+
+        $this->db_manager->begin();
+
+        try {
+            $response = $service->execute($input);
+            $this->db_manager->commit();
+        }catch (Exception $e){
+            $this->db_manager->rollback();
+            return $this->error($e);
+        }
+
+        return $this->successWithData($response);
+    }
+
+    public function rejectConsultation(Request $request): JsonResponse
+    {
+        $rules = [
+            'id' => 'required',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if($validator->fails()) return $this->validationError($validator->errors());
+
+        $input = new RejectConsultationRequest(
+            id: $request->input("id"),
+        );
+
+        $service = new RejectConsultationService(
             $this->userRepository,
             $this->consultationRepository,
         );
