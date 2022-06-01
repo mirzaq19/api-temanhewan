@@ -2,6 +2,7 @@
 
 use App\Temanhewan\Presentation\Controllers\AuthController;
 use App\Temanhewan\Presentation\Controllers\CommentController;
+use App\Temanhewan\Presentation\Controllers\ConsultationController;
 use App\Temanhewan\Presentation\Controllers\ForumController;
 use App\Temanhewan\Presentation\Controllers\PetController;
 use App\Temanhewan\Presentation\Controllers\UserController;
@@ -48,5 +49,11 @@ Route::prefix('comment')->group(function () {
         Route::post('update', [CommentController::class, 'updateComment']);
         Route::post('delete', [CommentController::class, 'deleteComment']);
         Route::post('delete-image', [CommentController::class, 'deleteCommentImage']);
+    });
+});
+
+Route::prefix('consultation')->group(function(){
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::post('create', [ConsultationController::class, 'createConsultation']);
     });
 });

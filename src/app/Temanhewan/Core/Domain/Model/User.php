@@ -7,6 +7,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Contracts\Auth\Authenticatable;
 
 use DateTime;
+use Ramsey\Uuid\Type\Time;
 
 class User implements Authenticatable
 {
@@ -127,6 +128,26 @@ class User implements Authenticatable
             $content,
             $this->getId(),
             $forumId,
+        );
+    }
+
+    public function addConsultation(
+        string $complaint,
+        string $address,
+        DateTime $date,
+        ?int $fee,
+        UserId $doctorId
+    ): Consultation
+    {
+        return new Consultation(
+            new ConsultationId(),
+            $complaint,
+            $address,
+            $date,
+            $fee,
+            new ConsultationStatus(ConsultationStatus::PENDING),
+            $this->getId(),
+            $doctorId,
         );
     }
 
