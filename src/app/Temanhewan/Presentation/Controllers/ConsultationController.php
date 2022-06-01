@@ -5,6 +5,8 @@ namespace App\Temanhewan\Presentation\Controllers;
 use App\Shared\Service\DBManager;
 use App\Temanhewan\Core\Application\Service\AcceptConsultation\AcceptConsultationRequest;
 use App\Temanhewan\Core\Application\Service\AcceptConsultation\AcceptConsultationService;
+use App\Temanhewan\Core\Application\Service\CompleteConsultation\CompleteConsultationRequest;
+use App\Temanhewan\Core\Application\Service\CompleteConsultation\CompleteConsultationService;
 use App\Temanhewan\Core\Application\Service\CreateConsultation\CreateConsultationRequest;
 use App\Temanhewan\Core\Application\Service\CreateConsultation\CreateConsultationService;
 use App\Temanhewan\Core\Application\Service\PaidConsultation\PaidConsultationRequest;
@@ -110,6 +112,37 @@ class ConsultationController extends Controller
         );
 
         $service = new PaidConsultationService(
+            $this->userRepository,
+            $this->consultationRepository,
+        );
+
+        $this->db_manager->begin();
+
+        try {
+            $response = $service->execute($input);
+            $this->db_manager->commit();
+        }catch (Exception $e){
+            $this->db_manager->rollback();
+            return $this->error($e);
+        }
+
+        return $this->successWithData($response);
+    }
+
+    public function completeConsultation(Request $request): JsonResponse
+    {
+        $rules = [
+            'id' => 'required',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if($validator->fails()) return $this->validationError($validator->errors());
+
+        $input = new CompleteConsultationRequest(
+            id: $request->input("id"),
+        );
+
+        $service = new CompleteConsultationService(
             $this->userRepository,
             $this->consultationRepository,
         );

@@ -54,6 +54,16 @@ class SqlConsultationRepository implements ConsultationRepository
             ]);
     }
 
+    public function complete(Consultation $consultation)
+    {
+        DB::table('consultations')
+            ->where('id', $consultation->getId()->id())
+            ->update([
+                'status' => ConsultationStatus::COMPLETED,
+                'updated_at' => now()
+            ]);
+    }
+
     /**
      * @throws Exception
      */

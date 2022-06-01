@@ -57,5 +57,6 @@ Route::prefix('consultation')->group(function(){
         Route::post('create', [ConsultationController::class, 'createConsultation']);
         Route::post('accept', [ConsultationController::class, 'acceptConsultation']);
         Route::post('paid', [ConsultationController::class, 'paidConsultation']);
+        Route::post('complete', [ConsultationController::class, 'completeConsultation']);
     });
 });
