@@ -37,7 +37,7 @@ class CompleteConsultationService
             throw new TemanhewanException('You are not a customer',1050);
 
         if($customer->getId()->id() != $consultation->getCustomerId()->id())
-            throw new TemanhewanException('You are not the customer of this consultation',10451);
+            throw new TemanhewanException('You are not the customer of this consultation',1051);
 
         $this->consultationRepository->complete($consultation);
 
