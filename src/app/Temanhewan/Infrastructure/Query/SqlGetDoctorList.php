@@ -20,7 +20,7 @@ class SqlGetDoctorList implements GetDoctorListInterface
         foreach ($doctors_row as $doctor_row) {
             $rating = DB::table('consultation_reviews')
                 ->where('doctor_id', '=', $doctor_row->id)
-                ->avg('rating');
+                ->avg('rating') ?? 0;
             $count_review = DB::table('consultation_reviews')
                 ->where('doctor_id', '=', $doctor_row->id)
                 ->count();
