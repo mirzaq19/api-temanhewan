@@ -33,6 +33,7 @@ class GetDoctorListDto implements JsonSerializable
             'name' => $this->name,
             'avatar' => $this->getAvatarImageUrl($this->avatar),
             'email' => $this->email,
+            'gender' => $this->gender,
             'address' => $this->address,
             'phone' => $this->phone,
             'rating' => $this->rating,
