@@ -11,6 +11,8 @@ use App\Temanhewan\Core\Application\Service\CompleteConsultation\CompleteConsult
 use App\Temanhewan\Core\Application\Service\CompleteConsultation\CompleteConsultationService;
 use App\Temanhewan\Core\Application\Service\CreateConsultation\CreateConsultationRequest;
 use App\Temanhewan\Core\Application\Service\CreateConsultation\CreateConsultationService;
+use App\Temanhewan\Core\Application\Service\CreateConsultationReview\CreateConsultationReviewRequest;
+use App\Temanhewan\Core\Application\Service\CreateConsultationReview\CreateConsultationReviewService;
 use App\Temanhewan\Core\Application\Service\PaidConsultation\PaidConsultationRequest;
 use App\Temanhewan\Core\Application\Service\PaidConsultation\PaidConsultationService;
 use App\Temanhewan\Core\Application\Service\RejectConsultation\RejectConsultationRequest;
@@ -225,4 +227,43 @@ class ConsultationController extends Controller
 
         return $this->successWithData($response);
     }
+
+    public function createConsultationReview(Request $request): JsonResponse
+    {
+        $rules = [
+            'id' => 'required',
+            'rating' => 'required|integer|between:1,5',
+            'review' => 'required',
+            'is_public' => 'required',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if($validator->fails()) return $this->validationError($validator->errors());
+
+        $input = new CreateConsultationReviewRequest(
+            id: $request->input("id"),
+            rating: $request->input("rating"),
+            review: $request->input("review"),
+            is_public: $request->boolean("is_public"),
+        );
+
+        $service = new CreateConsultationReviewService(
+            $this->userRepository,
+            $this->consultationRepository,
+        );
+
+        $this->db_manager->begin();
+
+        try {
+            $response = $service->execute($input);
+            $this->db_manager->commit();
+        }catch (Exception $e){
+            $this->db_manager->rollback();
+            return $this->error($e);
+        }
+
+        return $this->successWithData($response);
+    }
+
+
 }

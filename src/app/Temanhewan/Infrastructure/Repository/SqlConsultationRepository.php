@@ -4,6 +4,7 @@ namespace App\Temanhewan\Infrastructure\Repository;
 
 use App\Temanhewan\Core\Domain\Model\Consultation;
 use App\Temanhewan\Core\Domain\Model\ConsultationId;
+use App\Temanhewan\Core\Domain\Model\ConsultationReview;
 use App\Temanhewan\Core\Domain\Model\ConsultationStatus;
 use App\Temanhewan\Core\Domain\Model\UserId;
 use App\Temanhewan\Core\Domain\Repository\ConsultationRepository;
@@ -82,6 +83,55 @@ class SqlConsultationRepository implements ConsultationRepository
                 'status' => ConsultationStatus::COMPLETED,
                 'updated_at' => now()
             ]);
+    }
+
+    public function saveReview(ConsultationReview $consultationReview): void
+    {
+        DB::table('consultation_reviews')
+            ->insert([
+                'rating' => $consultationReview->getRating(),
+                'review' => $consultationReview->getReview(),
+                'is_public' => $consultationReview->isPublic(),
+                'customer_id' => $consultationReview->getCustomerId()->id(),
+                'doctor_id' => $consultationReview->getDoctorId()->id(),
+                'consultation_id' => $consultationReview->getConsultationid()->id(),
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+
+        DB::table('consultations')
+            ->where('id', $consultationReview->getConsultationid()->id())
+            ->update([
+                'reviewed' => true,
+                'updated_at' => now()
+            ]);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getReview(ConsultationId $consultationId): ?ConsultationReview
+    {
+        $consultation_review_row = DB::table('consultation_reviews')
+            ->where('consultation_id', $consultationId->id())
+            ->first();
+
+        if ($consultation_review_row === null) return null;
+
+        $review =  new ConsultationReview(
+            $consultation_review_row->rating,
+            $consultation_review_row->review,
+            $consultation_review_row->is_public,
+            new UserId($consultation_review_row->customer_id),
+            new UserId($consultation_review_row->doctor_id),
+            new ConsultationId($consultation_review_row->consultation_id),
+        );
+
+        $review->setId($consultation_review_row->id);
+        $review->setCreatedAt(new DateTime($consultation_review_row->created_at));
+        $review->setUpdatedAt(new DateTime($consultation_review_row->updated_at));
+
+        return $review;
     }
 
     /**
