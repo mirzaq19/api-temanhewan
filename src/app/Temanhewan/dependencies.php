@@ -18,9 +18,11 @@ use App\Temanhewan\Infrastructure\Repository\SqlConsultationRepository;
 
 // Query Interface
 use App\Temanhewan\Core\Application\Query\GetDoctorReviews\GetDoctorReviewsInterface;
+use App\Temanhewan\Core\Application\Query\GetDoctorList\GetDoctorListInterface;
 
 // Query Implementation
 use App\Temanhewan\Infrastructure\Query\SqlGetDoctorReviews;
+use App\Temanhewan\Infrastructure\Query\SqlGetDoctorList;
 
 /** @var Application $app */
 
@@ -33,3 +35,4 @@ $app->bind(ConsultationRepository::class, SqlConsultationRepository::class);
 
 // Bind the Query interface to the implementation.
 $app->bind(GetDoctorReviewsInterface::class, SqlGetDoctorReviews::class);
+$app->bind(GetDoctorListInterface::class, SqlGetDoctorList::class);

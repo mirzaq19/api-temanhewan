@@ -69,6 +69,7 @@ Route::prefix('consultation')->group(function(){
 
 Route::prefix('doctor')->group(function(){
     Route::post('reviews', [DoctorController::class, 'getReviews']);
+    Route::post('list', [DoctorController::class, 'getDoctors']);
     Route::middleware('auth:sanctum')->group(function () {
     });
 });
