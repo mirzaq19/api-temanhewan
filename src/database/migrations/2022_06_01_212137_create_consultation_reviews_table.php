@@ -13,15 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('consultations', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->text('complaint');
-            $table->string('address');
-            $table->dateTime('date');
-            $table->float('fee',10)->nullable();
-            $table->string('status');
-            $table->boolean('reviewed')->default(false);
+        Schema::create('consultation_reviews', function (Blueprint $table) {
+            $table->id();
+            $table->integer('rating');
+            $table->text('review');
+            $table->boolean('is_public');
             $table->foreignUuid('customer_id');
+            $table->foreignUuid('consultation_id');
             $table->foreignUuid('doctor_id');
             $table->timestamps();
         });
@@ -34,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('consultations');
+        Schema::dropIfExists('consultation_reviews');
     }
 };
