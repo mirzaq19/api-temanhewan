@@ -6,6 +6,7 @@ use App\Temanhewan\Presentation\Controllers\ConsultationController;
 use App\Temanhewan\Presentation\Controllers\ForumController;
 use App\Temanhewan\Presentation\Controllers\PetController;
 use App\Temanhewan\Presentation\Controllers\UserController;
+use \App\Temanhewan\Presentation\Controllers\DoctorController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('user')->group(function () {
@@ -63,5 +64,11 @@ Route::prefix('consultation')->group(function(){
         Route::prefix('review')->group(function () {
             Route::post('create', [ConsultationController::class, 'createConsultationReview']);
         });
+    });
+});
+
+Route::prefix('doctor')->group(function(){
+    Route::post('reviews', [DoctorController::class, 'getReviews']);
+    Route::middleware('auth:sanctum')->group(function () {
     });
 });
