@@ -8,6 +8,8 @@ use App\Temanhewan\Core\Application\Service\CreateGroomingService\CreateGrooming
 use App\Temanhewan\Core\Application\Service\CreateGroomingService\CreateGroomingServiceService;
 use App\Temanhewan\Core\Application\Service\DeleteGroomingService\DeleteGroomingServiceRequest;
 use App\Temanhewan\Core\Application\Service\DeleteGroomingService\DeleteGroomingServiceService;
+use App\Temanhewan\Core\Application\Service\GetGroomingService\GetGroomingServiceRequest;
+use App\Temanhewan\Core\Application\Service\GetGroomingService\GetGroomingServiceService;
 use App\Temanhewan\Core\Application\Service\UpdateGroomingService\UpdateGroomingServiceRequest;
 use App\Temanhewan\Core\Application\Service\UpdateGroomingService\UpdateGroomingServiceService;
 use App\Temanhewan\Core\Domain\Repository\GroomingServiceRepository;
@@ -46,6 +48,36 @@ class GroomingServiceController extends Controller
 
         $service = new CreateGroomingServiceService(
             $this->userRepository,
+            $this->groomingServiceRepository
+        );
+
+        $this->db_manager->begin();
+
+        try {
+            $response = $service->execute($input);
+            $this->db_manager->commit();
+        } catch (Exception $e) {
+            $this->db_manager->rollback();
+            return $this->error($e);
+        }
+
+        return $this->successWithData($response);
+    }
+
+    public function getGroomingService(Request $request): JsonResponse
+    {
+        $rules = [
+            'id' => 'required',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) return $this->validationError($validator->errors());
+
+        $input = new getGroomingServiceRequest(
+            $request->input('id'),
+        );
+
+        $service = new getGroomingServiceService(
             $this->groomingServiceRepository
         );
 
