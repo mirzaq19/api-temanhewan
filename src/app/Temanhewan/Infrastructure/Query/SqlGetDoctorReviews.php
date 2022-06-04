@@ -3,6 +3,7 @@
 namespace App\Temanhewan\Infrastructure\Query;
 
 use App\Temanhewan\Core\Application\Query\GetDoctorReviews\GetDoctorReviewsDto;
+use App\Temanhewan\Core\Domain\Exception\TemanhewanException;
 use DateTime;
 use Illuminate\Support\Facades\DB;
 use App\Temanhewan\Core\Application\Query\GetDoctorReviews\GetDoctorReviewsInterface;
@@ -14,6 +15,14 @@ class SqlGetDoctorReviews implements GetDoctorReviewsInterface
      */
     public function execute(string $doctor_id, ?bool $all) : array
     {
+        $doctor_row = DB::table('users')
+            ->where('id', $doctor_id)
+            ->where('role', 'doctor')
+            ->first();
+
+        if(!$doctor_row)
+            throw new TemanhewanException('Doctor not found',1068);
+
         if($all){
             $reviews_row = DB::table('consultation_reviews')
                 ->select(DB::Raw('consultation_reviews.id, rating, review, is_public, customer_id, users.name, users.profile_image, consultation_reviews.created_at, consultation_reviews.updated_at'))
@@ -29,7 +38,6 @@ class SqlGetDoctorReviews implements GetDoctorReviewsInterface
                 ->join('users', 'consultation_reviews.customer_id', '=', 'users.id')
                 ->get();
         }
-
 
         $reviews = [];
         foreach ($reviews_row as $review_row) {
