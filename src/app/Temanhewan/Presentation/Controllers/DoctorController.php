@@ -2,6 +2,7 @@
 
 namespace App\Temanhewan\Presentation\Controllers;
 
+use App\Temanhewan\Core\Application\Query\GetDoctor\GetDoctorInterface;
 use App\Temanhewan\Core\Application\Query\GetDoctorList\GetDoctorListInterface;
 use App\Temanhewan\Core\Application\Query\GetDoctorReviews\GetDoctorReviewsInterface;
 use Exception;
@@ -16,8 +17,33 @@ class DoctorController extends Controller
     public function __construct(
         private DBManager $db_manager,
         private GetDoctorReviewsInterface $getDoctorReviews,
-        private GetDoctorListInterface $getDoctorList
+        private GetDoctorListInterface $getDoctorList,
+        private GetDoctorInterface $getDoctor
     ){ }
+
+    public function getDoctor(Request $request): JsonResponse
+    {
+        $rules = [
+            'id' => 'required',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if($validator->fails()) return $this->validationError($validator->errors());
+
+        $this->db_manager->begin();
+
+        try {
+            $response = $this->getDoctor->execute(
+                $request->input('id'),
+            );
+            $this->db_manager->commit();
+        }catch (Exception $e){
+            $this->db_manager->rollback();
+            return $this->error($e);
+        }
+
+        return $this->successWithData($response);
+    }
 
     public function getDoctors(Request $request): JsonResponse
     {
