@@ -170,10 +170,13 @@ class SqlConsultationRepository implements ConsultationRepository
     /**
      * @throws Exception
      */
-    public function ByCustomerId(UserId $customerId): array
+    public function ByCustomerId(UserId $customerId, int $offset, int $limit): array
     {
         $consultation_rows = DB::table('consultations')
             ->where('customer_id', $customerId->id())
+            ->offset($offset)
+            ->limit($limit)
+            ->orderByDesc('created_at')
             ->get();
 
         $consultations = [];

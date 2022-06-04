@@ -10,7 +10,7 @@ interface ConsultationRepository
 {
     public function ById(ConsultationId $consultationId): ?Consultation;
     public function ByDoctorId(UserId $doctorId): array;
-    public function ByCustomerId(UserId $customerId): array;
+    public function ByCustomerId(UserId $customerId, int $offset, int $limit): array;
     public function save(Consultation $consultation): void;
     public function update(Consultation $consultation): void;
     public function delete(Consultation $consultation): void;

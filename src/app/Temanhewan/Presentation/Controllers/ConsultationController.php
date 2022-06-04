@@ -15,6 +15,8 @@ use App\Temanhewan\Core\Application\Service\CreateConsultationReview\CreateConsu
 use App\Temanhewan\Core\Application\Service\CreateConsultationReview\CreateConsultationReviewService;
 use App\Temanhewan\Core\Application\Service\GetConsultation\GetConsultationRequest;
 use App\Temanhewan\Core\Application\Service\GetConsultation\GetConsultationService;
+use App\Temanhewan\Core\Application\Service\GetConsultationCustomer\GetConsultationCustomerRequest;
+use App\Temanhewan\Core\Application\Service\GetConsultationCustomer\GetConsultationCustomerService;
 use App\Temanhewan\Core\Application\Service\PaidConsultation\PaidConsultationRequest;
 use App\Temanhewan\Core\Application\Service\PaidConsultation\PaidConsultationService;
 use App\Temanhewan\Core\Application\Service\RejectConsultation\RejectConsultationRequest;
@@ -49,6 +51,41 @@ class ConsultationController extends Controller
         );
 
         $service = new GetConsultationService(
+            $this->consultationRepository,
+        );
+
+        $this->db_manager->begin();
+
+        try {
+            $response = $service->execute($input);
+            $this->db_manager->commit();
+        }catch (Exception $e){
+            $this->db_manager->rollback();
+            return $this->error($e);
+        }
+
+        return $this->successWithData($response);
+    }
+
+    public function getConsultationByCustomer(Request $request): JsonResponse
+    {
+        $rules = [
+            'customer_id' => 'required',
+            'offset' => 'required',
+            'limit' => 'required',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if($validator->fails()) return $this->validationError($validator->errors());
+
+        $input = new GetConsultationCustomerRequest(
+            customer_id: $request->input("customer_id"),
+            offset: $request->input("offset"),
+            limit: $request->input("limit"),
+        );
+
+        $service = new GetConsultationCustomerService(
+            $this->userRepository,
             $this->consultationRepository,
         );
 
