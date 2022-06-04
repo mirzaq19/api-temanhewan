@@ -28,8 +28,8 @@ class CommentId
         return $this->id;
     }
 
-    public function equals(CommentId $userId): bool
+    public function equals(CommentId $commentId): bool
     {
-        return $this->id === $userId->id;
+        return $this->id === $commentId->id;
     }
 }
