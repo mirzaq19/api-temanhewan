@@ -4,16 +4,23 @@ namespace App\Temanhewan\Infrastructure\Query;
 
 use App\Temanhewan\Core\Application\Query\GetDoctor\GetDoctorDto;
 use App\Temanhewan\Core\Application\Query\GetDoctor\GetDoctorInterface;
+use App\Temanhewan\Core\Domain\Exception\TemanhewanException;
 use Illuminate\Support\Facades\DB;
 
 class SqlGetDoctor implements GetDoctorInterface
 {
+    /**
+     * @throws TemanhewanException
+     */
     public function execute(string $id): GetDoctorDto
     {
         $doctor_row = DB::table('users')
             ->where('id', $id)
             ->where('role','doctor')
             ->first();
+
+        if(!$doctor_row)
+            throw new TemanhewanException('Doctor not found',1067);
 
         $rating = DB::table('consultation_reviews')
                 ->where('doctor_id', $id)
