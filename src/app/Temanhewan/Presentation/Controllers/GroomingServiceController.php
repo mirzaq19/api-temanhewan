@@ -73,11 +73,11 @@ class GroomingServiceController extends Controller
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) return $this->validationError($validator->errors());
 
-        $input = new getGroomingServiceRequest(
+        $input = new GetGroomingServiceRequest(
             $request->input('id'),
         );
 
-        $service = new getGroomingServiceService(
+        $service = new GetGroomingServiceService(
             $this->groomingServiceRepository
         );
 
