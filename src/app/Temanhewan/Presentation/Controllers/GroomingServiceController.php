@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Shared\Service\DBManager;
 use App\Temanhewan\Core\Application\Service\CreateGroomingService\CreateGroomingServiceRequest;
 use App\Temanhewan\Core\Application\Service\CreateGroomingService\CreateGroomingServiceService;
+use App\Temanhewan\Core\Application\Service\UpdateGroomingService\UpdateGroomingServiceRequest;
+use App\Temanhewan\Core\Application\Service\UpdateGroomingService\UpdateGroomingServiceService;
 use App\Temanhewan\Core\Domain\Repository\GroomingServiceRepository;
 use App\Temanhewan\Core\Domain\Repository\UserRepository;
 use Exception;
@@ -41,6 +43,43 @@ class GroomingServiceController extends Controller
         );
 
         $service = new CreateGroomingServiceService(
+            $this->userRepository,
+            $this->groomingServiceRepository
+        );
+
+        $this->db_manager->begin();
+
+        try {
+            $response = $service->execute($input);
+            $this->db_manager->commit();
+        } catch (Exception $e) {
+            $this->db_manager->rollback();
+            return $this->error($e);
+        }
+
+        return $this->successWithData($response);
+    }
+
+    public function updateGroomingService(Request $request): JsonResponse
+    {
+        $rules = [
+            'id' => 'required',
+            'name' => 'required',
+            'description' => 'required',
+            'price' => 'required',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) return $this->validationError($validator->errors());
+
+        $input = new UpdateGroomingServiceRequest(
+            $request->input('id'),
+            $request->input('name'),
+            $request->input('description'),
+            $request->input('price'),
+        );
+
+        $service = new UpdateGroomingServiceService(
             $this->userRepository,
             $this->groomingServiceRepository
         );
