@@ -13,6 +13,8 @@ use App\Temanhewan\Core\Application\Service\CreateConsultation\CreateConsultatio
 use App\Temanhewan\Core\Application\Service\CreateConsultation\CreateConsultationService;
 use App\Temanhewan\Core\Application\Service\CreateConsultationReview\CreateConsultationReviewRequest;
 use App\Temanhewan\Core\Application\Service\CreateConsultationReview\CreateConsultationReviewService;
+use App\Temanhewan\Core\Application\Service\GetConsultation\GetConsultationRequest;
+use App\Temanhewan\Core\Application\Service\GetConsultation\GetConsultationService;
 use App\Temanhewan\Core\Application\Service\PaidConsultation\PaidConsultationRequest;
 use App\Temanhewan\Core\Application\Service\PaidConsultation\PaidConsultationService;
 use App\Temanhewan\Core\Application\Service\RejectConsultation\RejectConsultationRequest;
@@ -32,6 +34,36 @@ class ConsultationController extends Controller
         private UserRepository $userRepository,
         private ConsultationRepository $consultationRepository
     ){ }
+
+    public function getConsultation(Request $request): JsonResponse
+    {
+        $rules = [
+            'id' => 'required',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if($validator->fails()) return $this->validationError($validator->errors());
+
+        $input = new GetConsultationRequest(
+            id: $request->input("id"),
+        );
+
+        $service = new GetConsultationService(
+            $this->consultationRepository,
+        );
+
+        $this->db_manager->begin();
+
+        try {
+            $response = $service->execute($input);
+            $this->db_manager->commit();
+        }catch (Exception $e){
+            $this->db_manager->rollback();
+            return $this->error($e);
+        }
+
+        return $this->successWithData($response);
+    }
 
     public function createConsultation(Request $request): JsonResponse
     {
