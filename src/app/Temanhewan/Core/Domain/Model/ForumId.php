@@ -28,8 +28,8 @@ class ForumId
         return $this->id;
     }
 
-    public function equals(ForumId $userId): bool
+    public function equals(ForumId $forumId): bool
     {
-        return $this->id === $userId->id;
+        return $this->id === $forumId->id;
     }
 }
