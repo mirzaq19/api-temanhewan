@@ -52,9 +52,10 @@ class SqlGroomingServiceRepository implements GroomingServiceRepository
     public function list(UserId $groomingId, int $offset, int $limit): array
     {
         $grooming_services_rows = DB::table('grooming_services')
-            ->where('user_id', $groomingId->id())
+            ->where('grooming_id', $groomingId->id())
             ->offset($offset)
             ->limit($limit)
+            ->orderByDesc('updated_at')
             ->get();
 
         $grooming_services = [];
