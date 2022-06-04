@@ -9,7 +9,7 @@ use App\Temanhewan\Core\Domain\Model\UserId;
 interface ConsultationRepository
 {
     public function ById(ConsultationId $consultationId): ?Consultation;
-    public function ByDoctorId(UserId $doctorId): array;
+    public function ByDoctorId(UserId $doctorId, int $offset, int $limit): array;
     public function ByCustomerId(UserId $customerId, int $offset, int $limit): array;
     public function save(Consultation $consultation): void;
     public function update(Consultation $consultation): void;
