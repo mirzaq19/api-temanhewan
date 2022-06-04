@@ -28,8 +28,8 @@ class ConsultationId
         return $this->id;
     }
 
-    public function equals(ConsultationId $userId): bool
+    public function equals(ConsultationId $consultationId): bool
     {
-        return $this->id === $userId->id;
+        return $this->id === $consultationId->id;
     }
 }
