@@ -151,6 +151,22 @@ class User implements Authenticatable
         );
     }
 
+    public function addGroomingService(
+        string $name,
+        string $description,
+        int $price,
+        UserId $groomingId
+    ): GroomingService
+    {
+        return new GroomingService(
+            new GroomingServiceId(),
+            $name,
+            $description,
+            $price,
+            $this->getId(),
+        );
+    }
+
     /**
      * @param string $hashPassword
      */
