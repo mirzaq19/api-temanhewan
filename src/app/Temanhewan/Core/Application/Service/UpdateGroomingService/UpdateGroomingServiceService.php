@@ -37,6 +37,10 @@ class UpdateGroomingServiceService
         if($grooming->getId()->id() != $groomingService->getGroomingId()->id())
             throw new TemanhewanException("You are not allowed to update this grooming service",1077);
 
+        $groomingService->setName($request->getName());
+        $groomingService->setDescription($request->getDescription());
+        $groomingService->setPrice($request->getPrice());
+
         $this->groomingServiceRepository->update($groomingService);
 
         $updatedGroomingService = $this->groomingServiceRepository->ById($groomingServiceId);
