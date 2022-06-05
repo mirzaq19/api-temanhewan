@@ -9,6 +9,7 @@ use App\Temanhewan\Core\Domain\Repository\ForumRepository;
 use App\Temanhewan\Core\Domain\Repository\CommentRepository;
 use App\Temanhewan\Core\Domain\Repository\ConsultationRepository;
 use App\Temanhewan\Core\Domain\Repository\GroomingServiceRepository;
+use App\Temanhewan\Core\Domain\Repository\GroomingOrderRepository;
 
 // Repository Implementation
 use App\Temanhewan\Infrastructure\Repository\SqlUserRepository;
@@ -17,6 +18,7 @@ use App\Temanhewan\Infrastructure\Repository\SqlForumRepository;
 use App\Temanhewan\Infrastructure\Repository\SqlCommentRepository;
 use App\Temanhewan\Infrastructure\Repository\SqlConsultationRepository;
 use App\Temanhewan\Infrastructure\Repository\SqlGroomingServiceRepository;
+use App\Temanhewan\Infrastructure\Repository\SqlGroomingOrderRepository;
 
 // Query Interface
 use App\Temanhewan\Core\Application\Query\GetDoctorReviews\GetDoctorReviewsInterface;
@@ -38,6 +40,7 @@ $app->bind(ForumRepository::class, SqlForumRepository::class);
 $app->bind(CommentRepository::class, SqlCommentRepository::class);
 $app->bind(ConsultationRepository::class, SqlConsultationRepository::class);
 $app->bind(GroomingServiceRepository::class, SqlGroomingServiceRepository::class);
+$app->bind(GroomingOrderRepository::class, SqlGroomingOrderRepository::class);
 
 // Bind the Query interface to the implementation.
 $app->bind(GetDoctorReviewsInterface::class, SqlGetDoctorReviews::class);
