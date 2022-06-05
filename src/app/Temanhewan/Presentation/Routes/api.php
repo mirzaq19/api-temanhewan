@@ -84,6 +84,7 @@ Route::prefix('grooming')->group(function(){
     Route::prefix('order')->group(function() {
         Route::middleware('auth:sanctum')->group(function () {
             Route::post('create', [GroomingOrderController::class, 'createGroomingOrder']);
+            Route::post('paid', [GroomingOrderController::class, 'paidGroomingOrder']);
         });
     });
     Route::prefix('service')->group(function() {
