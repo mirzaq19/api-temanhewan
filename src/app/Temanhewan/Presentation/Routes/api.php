@@ -70,6 +70,7 @@ Route::prefix('consultation')->group(function(){
         Route::post('complete', [ConsultationController::class, 'completeConsultation']);
     });
     Route::prefix('review')->group(function () {
+        Route::post('get', [ConsultationController::class, 'getConsultationReview']);
         Route::middleware('auth:sanctum')->group(function () {
             Route::post('create', [ConsultationController::class, 'createConsultationReview']);
         });
