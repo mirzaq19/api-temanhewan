@@ -4,6 +4,8 @@ namespace App\Temanhewan\Presentation\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Shared\Service\DBManager;
+use App\Temanhewan\Core\Application\Service\CompleteGroomingOrder\CompleteGroomingOrderRequest;
+use App\Temanhewan\Core\Application\Service\CompleteGroomingOrder\CompleteGroomingOrderService;
 use App\Temanhewan\Core\Application\Service\ConfirmGroomingOrder\ConfirmGroomingOrderRequest;
 use App\Temanhewan\Core\Application\Service\ConfirmGroomingOrder\ConfirmGroomingOrderService;
 use App\Temanhewan\Core\Application\Service\CreateGroomingOrder\CreateGroomingOrderRequest;
@@ -144,6 +146,37 @@ class GroomingOrderController extends Controller
         );
 
         $service = new DeliverGroomingOrderService(
+            $this->userRepository,
+            $this->groomingOrderRepository
+        );
+
+        $this->db_manager->begin();
+
+        try {
+            $response = $service->execute($input);
+            $this->db_manager->commit();
+        }catch (Exception $e){
+            $this->db_manager->rollback();
+            return $this->error($e);
+        }
+
+        return $this->successWithData($response);
+    }
+
+    public function completeGroomingOrder(Request $request): JsonResponse
+    {
+        $rules = [
+            'id' => 'required',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if($validator->fails()) return $this->validationError($validator->errors());
+
+        $input = new CompleteGroomingOrderRequest(
+            id: $request->input('id'),
+        );
+
+        $service = new CompleteGroomingOrderService(
             $this->userRepository,
             $this->groomingOrderRepository
         );

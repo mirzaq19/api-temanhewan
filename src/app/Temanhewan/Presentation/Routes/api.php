@@ -8,7 +8,7 @@ use App\Temanhewan\Presentation\Controllers\GroomingOrderController;
 use App\Temanhewan\Presentation\Controllers\GroomingServiceController;
 use App\Temanhewan\Presentation\Controllers\PetController;
 use App\Temanhewan\Presentation\Controllers\UserController;
-use \App\Temanhewan\Presentation\Controllers\DoctorController;
+use App\Temanhewan\Presentation\Controllers\DoctorController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('user')->group(function () {
@@ -87,6 +87,7 @@ Route::prefix('grooming')->group(function(){
             Route::post('paid', [GroomingOrderController::class, 'paidGroomingOrder']);
             Route::post('confirm', [GroomingOrderController::class, 'confirmGroomingOrder']);
             Route::post('deliver', [GroomingOrderController::class, 'deliverGroomingOrder']);
+            Route::post('complete', [GroomingOrderController::class, 'completeGroomingOrder']);
         });
     });
     Route::prefix('service')->group(function() {
