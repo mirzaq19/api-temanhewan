@@ -4,6 +4,7 @@ use App\Temanhewan\Presentation\Controllers\AuthController;
 use App\Temanhewan\Presentation\Controllers\CommentController;
 use App\Temanhewan\Presentation\Controllers\ConsultationController;
 use App\Temanhewan\Presentation\Controllers\ForumController;
+use App\Temanhewan\Presentation\Controllers\GroomingController;
 use App\Temanhewan\Presentation\Controllers\GroomingOrderController;
 use App\Temanhewan\Presentation\Controllers\GroomingServiceController;
 use App\Temanhewan\Presentation\Controllers\PetController;
@@ -86,6 +87,7 @@ Route::prefix('doctor')->group(function(){
 });
 
 Route::prefix('grooming')->group(function(){
+    Route::post('list', [GroomingController::class, 'getGroomingList']);
     Route::prefix('order')->group(function() {
         Route::post('get', [GroomingOrderController::class, 'getGroomingOrder']);
         Route::post('customer', [GroomingOrderController::class, 'getGroomingOrderCustomer']);

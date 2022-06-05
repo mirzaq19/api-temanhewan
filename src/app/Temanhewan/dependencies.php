@@ -25,12 +25,14 @@ use App\Temanhewan\Core\Application\Query\GetDoctorReviews\GetDoctorReviewsInter
 use App\Temanhewan\Core\Application\Query\GetDoctorList\GetDoctorListInterface;
 use App\Temanhewan\Core\Application\Query\GetDoctor\GetDoctorInterface;
 use App\Temanhewan\Core\Application\Query\GetGroomingServiceReviews\GetGroomingServiceReviewsInterface;
+use App\Temanhewan\Core\Application\Query\GetGroomingList\GetGroomingListInterface;
 
 // Query Implementation
 use App\Temanhewan\Infrastructure\Query\SqlGetDoctorReviews;
 use App\Temanhewan\Infrastructure\Query\SqlGetDoctorList;
 use App\Temanhewan\Infrastructure\Query\SqlGetDoctor;
 use App\Temanhewan\Infrastructure\Query\SqlGetGroomingServiceReviews;
+use App\Temanhewan\Infrastructure\Query\SqlGetGroomingList;
 
 
 /** @var Application $app */
@@ -49,3 +51,4 @@ $app->bind(GetDoctorReviewsInterface::class, SqlGetDoctorReviews::class);
 $app->bind(GetDoctorListInterface::class, SqlGetDoctorList::class);
 $app->bind(GetDoctorInterface::class, SqlGetDoctor::class);
 $app->bind(GetGroomingServiceReviewsInterface::class, SqlGetGroomingServiceReviews::class);
+$app->bind(GetGroomingListInterface::class, SqlGetGroomingList::class);
