@@ -145,6 +145,41 @@ class GroomingOrderController extends Controller
         return $this->successWithData($response);
     }
 
+    public function getGroomingOrderGrooming(Request $request): JsonResponse
+    {
+        $rules = [
+            'grooming_id' => 'required',
+            'offset' => 'required',
+            'limit' => 'required'
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if($validator->fails()) return $this->validationError($validator->errors());
+
+        $input = new GetGroomingOrderGroomingRequest(
+            grooming_id: $request->input('grooming_id'),
+            offset: $request->input('offset'),
+            limit: $request->input('limit')
+        );
+
+        $service = new GetGroomingOrderGroomingService(
+            $this->userRepository,
+            $this->groomingOrderRepository
+        );
+
+        $this->db_manager->begin();
+
+        try {
+            $response = $service->execute($input);
+            $this->db_manager->commit();
+        }catch (Exception $e){
+            $this->db_manager->rollback();
+            return $this->error($e);
+        }
+
+        return $this->successWithData($response);
+    }
+
     public function paidGroomingOrder(Request $request): JsonResponse
     {
         $rules = [
