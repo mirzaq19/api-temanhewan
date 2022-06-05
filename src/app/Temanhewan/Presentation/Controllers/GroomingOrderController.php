@@ -22,6 +22,8 @@ use App\Temanhewan\Core\Application\Service\GetGroomingOrderCustomer\GetGrooming
 use App\Temanhewan\Core\Application\Service\GetGroomingOrderCustomer\GetGroomingOrderCustomerService;
 use App\Temanhewan\Core\Application\Service\GetGroomingOrderGrooming\GetGroomingOrderGroomingRequest;
 use App\Temanhewan\Core\Application\Service\GetGroomingOrderGrooming\GetGroomingOrderGroomingService;
+use App\Temanhewan\Core\Application\Service\GetGroomingOrderReview\GetGroomingOrderReviewRequest;
+use App\Temanhewan\Core\Application\Service\GetGroomingOrderReview\GetGroomingOrderReviewService;
 use App\Temanhewan\Core\Application\Service\PaidGroomingOrder\PaidGroomingOrderRequest;
 use App\Temanhewan\Core\Application\Service\PaidGroomingOrder\PaidGroomingOrderService;
 use App\Temanhewan\Core\Application\Service\RejectGroomingOrder\RejectGroomingOrderRequest;
@@ -389,6 +391,36 @@ class GroomingOrderController extends Controller
 
         $service = new CreateGroomingOrderReviewService(
             $this->userRepository,
+            $this->groomingOrderRepository,
+        );
+
+        $this->db_manager->begin();
+
+        try {
+            $response = $service->execute($input);
+            $this->db_manager->commit();
+        }catch (Exception $e){
+            $this->db_manager->rollback();
+            return $this->error($e);
+        }
+
+        return $this->successWithData($response);
+    }
+
+    public function getGroomingOrderReview(Request $request): JsonResponse
+    {
+        $rules = [
+            'id' => 'required',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if($validator->fails()) return $this->validationError($validator->errors());
+
+        $input = new GetGroomingOrderReviewRequest(
+            id: $request->input("id"),
+        );
+
+        $service = new GetGroomingOrderReviewService(
             $this->groomingOrderRepository,
         );
 

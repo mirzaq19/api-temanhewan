@@ -97,6 +97,7 @@ Route::prefix('grooming')->group(function(){
             Route::post('complete', [GroomingOrderController::class, 'completeGroomingOrder']);
         });
         Route::prefix('review')->group(function () {
+            Route::post('get', [GroomingOrderController::class, 'getGroomingOrderReview']);
             Route::middleware('auth:sanctum')->group(function () {
                 Route::post('create', [GroomingOrderController::class, 'createGroomingOrderReview']);
             });
