@@ -28,8 +28,8 @@ class CancelConsultationService
         if(!$consultation)
             throw new TemanhewanException('Consultation not found',1056);
 
-        if($consultation->getStatus()->getValue() != ConsultationStatus::PENDING)
-            throw new TemanhewanException('Only pending consultation can be canceled',1057);
+        if(!in_array($consultation->getStatus()->getValue(), [ConsultationStatus::PENDING,ConsultationStatus::ACCEPTED]))
+            throw new TemanhewanException('Only pending / accepted consultation can be canceled',1057);
 
         $customerId = new userId(auth()->user()->getAuthIdentifier());
         $customer = $this->userRepository->ById($customerId);
