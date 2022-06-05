@@ -167,6 +167,24 @@ class User implements Authenticatable
         );
     }
 
+    public function addGroomingOrder(
+        string $address,
+        GroomingServiceId $groomingServiceId,
+        PetId $petId,
+        UserId $groomingId
+    ): GroomingOrder
+    {
+        return new GroomingOrder(
+            new GroomingOrderId(),
+            $address,
+            new GroomingOrderStatus(GroomingOrderStatus::PENDING),
+            $groomingServiceId,
+            $petId,
+            $this->getId(),
+            $groomingId,
+        );
+    }
+
     /**
      * @param string $hashPassword
      */
