@@ -84,7 +84,8 @@ class ForumController extends Controller
         );
 
         $service = new GetForumService(
-            $this->forumRepository,
+            $this->userRepository,
+            $this->forumRepository
         );
 
         $this->db_manager->begin();
@@ -115,7 +116,10 @@ class ForumController extends Controller
             limit: $request->input("limit"),
         );
 
-        $service = new GetMyForumService($this->forumRepository);
+        $service = new GetMyForumService(
+            $this->userRepository,
+            $this->forumRepository
+        );
 
         $this->db_manager->begin();
 
@@ -145,7 +149,10 @@ class ForumController extends Controller
             limit: $request->input("limit"),
         );
 
-        $service = new GetPublicForumService($this->forumRepository);
+        $service = new GetPublicForumService(
+            $this->userRepository,
+            $this->forumRepository
+        );
 
         $this->db_manager->begin();
 
@@ -182,6 +189,7 @@ class ForumController extends Controller
         );
 
         $service = new UpdateForumService(
+            $this->userRepository,
             $this->forumRepository,
         );
 

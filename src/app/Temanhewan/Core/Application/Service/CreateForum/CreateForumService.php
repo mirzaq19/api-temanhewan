@@ -53,6 +53,6 @@ class CreateForumService
 
         $newForum = $this->forumRepository->byId($forum->getId());
         $newForumImages = $this->forumRepository->getForumImages($forum->getId());
-        return new GetMyForumResponse($newForum, $newForumImages);
+        return new GetMyForumResponse($user,$newForum, $newForumImages);
     }
 }

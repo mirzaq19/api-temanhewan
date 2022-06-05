@@ -6,10 +6,12 @@ use App\Temanhewan\Core\Application\Service\GetMyForum\GetMyForumResponse;
 use App\Temanhewan\Core\Domain\Exception\TemanhewanException;
 use App\Temanhewan\Core\Domain\Model\ForumId;
 use App\Temanhewan\Core\Domain\Repository\ForumRepository;
+use App\Temanhewan\Core\Domain\Repository\UserRepository;
 
 class GetForumService
 {
     public function __construct(
+        private UserRepository $userRepository,
         private ForumRepository $forumRepository
     ){}
 
@@ -27,6 +29,8 @@ class GetForumService
 
         $forumImages = $this->forumRepository->getForumImages($forum->getId());
 
-        return new GetMyForumResponse($forum, $forumImages);
+        $user = $this->userRepository->byId($forum->getUserId());
+
+        return new GetMyForumResponse($user,$forum, $forumImages);
     }
 }
