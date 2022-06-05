@@ -12,6 +12,7 @@ class Consultation
     private DateTime $date;
     private ?int $fee;
     private ConsultationStatus $status;
+    private bool $isReviewed;
     private UserId $customerId;
     private UserId $doctorId;
     private DateTime $createdAt;
@@ -96,6 +97,14 @@ class Consultation
     }
 
     /**
+     * @return bool
+     */
+    public function isReviewed(): bool
+    {
+        return $this->isReviewed;
+    }
+
+    /**
      * @return UserId
      */
     public function getCustomerId(): UserId
@@ -165,6 +174,14 @@ class Consultation
     public function setStatus(ConsultationStatus $status): void
     {
         $this->status = $status;
+    }
+
+    /**
+     * @param bool $isReviewed
+     */
+    public function setIsReviewed(bool $isReviewed): void
+    {
+        $this->isReviewed = $isReviewed;
     }
 
     /**
