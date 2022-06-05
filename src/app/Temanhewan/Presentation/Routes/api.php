@@ -86,6 +86,7 @@ Route::prefix('grooming')->group(function(){
             Route::post('create', [GroomingOrderController::class, 'createGroomingOrder']);
             Route::post('paid', [GroomingOrderController::class, 'paidGroomingOrder']);
             Route::post('confirm', [GroomingOrderController::class, 'confirmGroomingOrder']);
+            Route::post('deliver', [GroomingOrderController::class, 'deliverGroomingOrder']);
         });
     });
     Route::prefix('service')->group(function() {
