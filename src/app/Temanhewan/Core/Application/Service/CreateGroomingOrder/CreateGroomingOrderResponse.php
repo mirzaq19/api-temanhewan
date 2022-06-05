@@ -16,6 +16,7 @@ class CreateGroomingOrderResponse implements JsonSerializable
         return [
             'id' => $this->groomingOrder->getId()->id(),
             'address' => $this->groomingOrder->getAddress(),
+            'is_reviewed' => $this->groomingOrder->isReviewed(),
             'status' => $this->groomingOrder->getStatus()->getValue(),
             'grooming_service_id' => $this->groomingOrder->getGroomingServiceId()->id(),
             'pet_id' => $this->groomingOrder->getPetId()->id(),
