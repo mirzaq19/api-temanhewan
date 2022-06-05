@@ -16,6 +16,10 @@ use App\Temanhewan\Core\Application\Service\DeliverGroomingOrder\DeliverGrooming
 use App\Temanhewan\Core\Application\Service\DeliverGroomingOrder\DeliverGroomingOrderService;
 use App\Temanhewan\Core\Application\Service\GetGroomingOrder\GetGroomingOrderRequest;
 use App\Temanhewan\Core\Application\Service\GetGroomingOrder\GetGroomingOrderService;
+use App\Temanhewan\Core\Application\Service\GetGroomingOrderCustomer\GetGroomingOrderCustomerRequest;
+use App\Temanhewan\Core\Application\Service\GetGroomingOrderCustomer\GetGroomingOrderCustomerService;
+use App\Temanhewan\Core\Application\Service\GetGroomingOrderGrooming\GetGroomingOrderGroomingRequest;
+use App\Temanhewan\Core\Application\Service\GetGroomingOrderGrooming\GetGroomingOrderGroomingService;
 use App\Temanhewan\Core\Application\Service\PaidGroomingOrder\PaidGroomingOrderRequest;
 use App\Temanhewan\Core\Application\Service\PaidGroomingOrder\PaidGroomingOrderService;
 use App\Temanhewan\Core\Application\Service\RejectGroomingOrder\RejectGroomingOrderRequest;
@@ -90,6 +94,41 @@ class GroomingOrderController extends Controller
         );
 
         $service = new GetGroomingOrderService(
+            $this->groomingOrderRepository
+        );
+
+        $this->db_manager->begin();
+
+        try {
+            $response = $service->execute($input);
+            $this->db_manager->commit();
+        }catch (Exception $e){
+            $this->db_manager->rollback();
+            return $this->error($e);
+        }
+
+        return $this->successWithData($response);
+    }
+
+    public function getGroomingOrderCustomer(Request $request): JsonResponse
+    {
+        $rules = [
+            'customer_id' => 'required',
+            'offset' => 'required',
+            'limit' => 'required'
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if($validator->fails()) return $this->validationError($validator->errors());
+
+        $input = new GetGroomingOrderCustomerRequest(
+            customer_id: $request->input('customer_id'),
+            offset: $request->input('offset'),
+            limit: $request->input('limit')
+        );
+
+        $service = new GetGroomingOrderCustomerService(
+            $this->userRepository,
             $this->groomingOrderRepository
         );
 
