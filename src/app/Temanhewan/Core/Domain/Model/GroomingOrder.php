@@ -8,6 +8,7 @@ class GroomingOrder
 {
     private GroomingOrderId $id;
     private string $address;
+    private bool $isReviewed = false;
     private GroomingOrderStatus $status;
     private GroomingServiceId $groomingServiceId;
     private PetId $petId;
@@ -57,6 +58,14 @@ class GroomingOrder
     public function getAddress(): string
     {
         return $this->address;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isReviewed(): bool
+    {
+        return $this->isReviewed;
     }
 
     /**
@@ -129,6 +138,14 @@ class GroomingOrder
     public function setStatus(GroomingOrderStatus $status): void
     {
         $this->status = $status;
+    }
+
+    /**
+     * @param bool $isReviewed
+     */
+    public function setIsReviewed(bool $isReviewed): void
+    {
+        $this->isReviewed = $isReviewed;
     }
 
     /**
