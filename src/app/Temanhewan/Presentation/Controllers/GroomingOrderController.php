@@ -12,6 +12,8 @@ use App\Temanhewan\Core\Application\Service\ConfirmGroomingOrder\ConfirmGrooming
 use App\Temanhewan\Core\Application\Service\ConfirmGroomingOrder\ConfirmGroomingOrderService;
 use App\Temanhewan\Core\Application\Service\CreateGroomingOrder\CreateGroomingOrderRequest;
 use App\Temanhewan\Core\Application\Service\CreateGroomingOrder\CreateGroomingOrderService;
+use App\Temanhewan\Core\Application\Service\CreateGroomingOrderReview\CreateGroomingOrderReviewRequest;
+use App\Temanhewan\Core\Application\Service\CreateGroomingOrderReview\CreateGroomingOrderReviewService;
 use App\Temanhewan\Core\Application\Service\DeliverGroomingOrder\DeliverGroomingOrderRequest;
 use App\Temanhewan\Core\Application\Service\DeliverGroomingOrder\DeliverGroomingOrderService;
 use App\Temanhewan\Core\Application\Service\GetGroomingOrder\GetGroomingOrderRequest;
@@ -351,6 +353,43 @@ class GroomingOrderController extends Controller
         $service = new CompleteGroomingOrderService(
             $this->userRepository,
             $this->groomingOrderRepository
+        );
+
+        $this->db_manager->begin();
+
+        try {
+            $response = $service->execute($input);
+            $this->db_manager->commit();
+        }catch (Exception $e){
+            $this->db_manager->rollback();
+            return $this->error($e);
+        }
+
+        return $this->successWithData($response);
+    }
+
+    public function createGroomingOrderReview(Request $request): JsonResponse
+    {
+        $rules = [
+            'id' => 'required',
+            'rating' => 'required|integer|between:1,5',
+            'review' => 'required',
+            'is_public' => 'required',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if($validator->fails()) return $this->validationError($validator->errors());
+
+        $input = new CreateGroomingOrderReviewRequest(
+            id: $request->input("id"),
+            rating: $request->input("rating"),
+            review: $request->input("review"),
+            is_public: $request->boolean("is_public"),
+        );
+
+        $service = new CreateGroomingOrderReviewService(
+            $this->userRepository,
+            $this->groomingOrderRepository,
         );
 
         $this->db_manager->begin();

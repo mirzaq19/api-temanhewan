@@ -4,6 +4,7 @@ namespace App\Temanhewan\Infrastructure\Repository;
 
 use App\Temanhewan\Core\Domain\Model\GroomingOrder;
 use App\Temanhewan\Core\Domain\Model\GroomingOrderId;
+use App\Temanhewan\Core\Domain\Model\GroomingOrderReview;
 use App\Temanhewan\Core\Domain\Model\GroomingOrderStatus;
 use App\Temanhewan\Core\Domain\Model\GroomingServiceId;
 use App\Temanhewan\Core\Domain\Model\PetId;
@@ -30,10 +31,61 @@ class SqlGroomingOrderRepository implements GroomingOrderRepository
             new UserId($grooming_order_row->grooming_id),
         );
 
+        $grooming_order->setIsReviewed($grooming_order_row->reviewed);
         $grooming_order->setCreatedAt(new DateTime($grooming_order_row->created_at));
         $grooming_order->setUpdatedAt(new DateTime($grooming_order_row->updated_at));
 
         return $grooming_order;
+    }
+
+    public function saveReview(GroomingOrderReview $groomingOrderReview): void
+    {
+        DB::table('grooming_reviews')->insert([
+            'rating' => $groomingOrderReview->getRating(),
+            'review' => $groomingOrderReview->getReview(),
+            'is_public' => $groomingOrderReview->isPublic(),
+            'customer_id' => $groomingOrderReview->getCustomerId()->id(),
+            'grooming_id' => $groomingOrderReview->getGroomingId()->id(),
+            'grooming_service_id' => $groomingOrderReview->getGroomingServiceId()->id(),
+            'grooming_order_id' => $groomingOrderReview->getGroomingOrderId()->id(),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        Db::table('grooming_orders')
+            ->where('id', $groomingOrderReview->getGroomingOrderId()->id())
+            ->update([
+                'reviewed' => true,
+                'updated_at' => now(),
+            ]);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getReview(GroomingOrderId $groomingOrderId): ?GroomingOrderReview
+    {
+        $grooming_order_row = DB::table('grooming_reviews')
+            ->where('grooming_order_id', $groomingOrderId->id())
+            ->first();
+
+        if ($grooming_order_row === null) return null;
+
+        $review =  new GroomingOrderReview(
+            $grooming_order_row->rating,
+            $grooming_order_row->review,
+            $grooming_order_row->is_public,
+            new UserId($grooming_order_row->customer_id),
+            new UserId($grooming_order_row->grooming_id),
+            new GroomingServiceId($grooming_order_row->grooming_service_id),
+            new GroomingOrderId($grooming_order_row->grooming_order_id),
+        );
+
+        $review->setId($grooming_order_row->id);
+        $review->setCreatedAt(new DateTime($grooming_order_row->created_at));
+        $review->setUpdatedAt(new DateTime($grooming_order_row->updated_at));
+
+        return $review;
     }
 
     /**
