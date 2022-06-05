@@ -13,15 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('grooming_orders', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->text('address');
-            $table->string('status');
-            $table->boolean('reviewed')->default(false);
-            $table->foreignUuid('grooming_service_id');
-            $table->foreignUuid('pet_id');
+        Schema::create('grooming_reviews', function (Blueprint $table) {
+            $table->id();
+            $table->integer('rating');
+            $table->text('review');
+            $table->boolean('is_public');
             $table->foreignUuid('customer_id');
             $table->foreignUuid('grooming_id');
+            $table->foreignUuid('grooming_service_id');
+            $table->foreignUuid('grooming_order_id');
             $table->timestamps();
         });
     }
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('grooming_orders');
+        Schema::dropIfExists('grooming_reviews');
     }
 };
