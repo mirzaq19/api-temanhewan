@@ -30,6 +30,9 @@ class CreateConsultationReviewService
         if(!$consultation)
             throw new TemanhewanException("Consultation not found",1062);
 
+        if($consultation->isReviewed())
+            throw new TemanhewanException("Consultation already reviewed",1063);
+
         if($consultation->getStatus()->getValue() != ConsultationStatus::COMPLETED)
             throw new TemanhewanException("Consultation not completed",1063);
 
