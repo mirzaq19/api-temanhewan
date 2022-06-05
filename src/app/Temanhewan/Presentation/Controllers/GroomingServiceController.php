@@ -4,6 +4,7 @@ namespace App\Temanhewan\Presentation\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Shared\Service\DBManager;
+use App\Temanhewan\Core\Application\Query\GetGroomingServiceReviews\GetGroomingServiceReviewsInterface;
 use App\Temanhewan\Core\Application\Service\CreateGroomingService\CreateGroomingServiceRequest;
 use App\Temanhewan\Core\Application\Service\CreateGroomingService\CreateGroomingServiceService;
 use App\Temanhewan\Core\Application\Service\DeleteGroomingService\DeleteGroomingServiceRequest;
@@ -26,7 +27,8 @@ class GroomingServiceController extends Controller
     public function __construct(
         private DBManager $db_manager,
         private UserRepository $userRepository,
-        private GroomingServiceRepository $groomingServiceRepository
+        private GroomingServiceRepository $groomingServiceRepository,
+        private GetGroomingServiceReviewsInterface $getGroomingServiceReviews
     ){}
 
     public function createGroomingService(Request $request): JsonResponse
@@ -196,5 +198,31 @@ class GroomingServiceController extends Controller
         }
 
         return $this->success();
+    }
+
+    public function getGroomingServiceReviews(Request $request): JsonResponse
+    {
+        $rules = [
+            'id' => 'required',
+            'all' => 'sometimes',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) return $this->validationError($validator->errors());
+
+        $this->db_manager->begin();
+
+        try {
+            $response = $this->getGroomingServiceReviews->execute(
+                $request->input('id'),
+                $request->boolean('all')
+            );
+            $this->db_manager->commit();
+        } catch (Exception $e) {
+            $this->db_manager->rollback();
+            return $this->error($e);
+        }
+
+        return $this->successWithData($response);
     }
 }
