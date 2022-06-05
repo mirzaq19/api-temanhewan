@@ -82,6 +82,7 @@ Route::prefix('doctor')->group(function(){
 
 Route::prefix('grooming')->group(function(){
     Route::prefix('order')->group(function() {
+        Route::post('get', [GroomingOrderController::class, 'getGroomingOrder']);
         Route::middleware('auth:sanctum')->group(function () {
             Route::post('create', [GroomingOrderController::class, 'createGroomingOrder']);
             Route::post('paid', [GroomingOrderController::class, 'paidGroomingOrder']);
