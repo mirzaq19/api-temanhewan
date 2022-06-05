@@ -29,6 +29,7 @@ class SqlConsultationRepository implements ConsultationRepository
             new UserId($consultation_row->customer_id),
             new UserId($consultation_row->doctor_id)
         );
+        $consultation->setIsReviewed($consultation_row->reviewed);
         $consultation->setCreatedAt(new DateTime($consultation_row->created_at));
         $consultation->setUpdatedAt(new DateTime($consultation_row->updated_at));
         return $consultation;

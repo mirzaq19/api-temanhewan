@@ -21,6 +21,7 @@ class CreateConsultationResponse implements JsonSerializable
             'time' => $this->consultation->getDate()->format('H:i'),
             'fee' => $this->consultation->getFee(),
             'status' => $this->consultation->getStatus()->getValue(),
+            'is_reviewed' => $this->consultation->isReviewed(),
             'customer_id' => $this->consultation->getCustomerId()->id(),
             'doctor_id' => $this->consultation->getDoctorId()->id(),
             'created_at' => $this->consultation->getCreatedAt()->format('Y-m-d H:i:s'),
