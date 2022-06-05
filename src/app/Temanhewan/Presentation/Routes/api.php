@@ -86,6 +86,7 @@ Route::prefix('grooming')->group(function(){
             Route::post('create', [GroomingOrderController::class, 'createGroomingOrder']);
             Route::post('paid', [GroomingOrderController::class, 'paidGroomingOrder']);
             Route::post('cancel', [GroomingOrderController::class, 'cancelGroomingOrder']);
+            Route::post('reject', [GroomingOrderController::class, 'rejectGroomingOrder']);
             Route::post('confirm', [GroomingOrderController::class, 'confirmGroomingOrder']);
             Route::post('deliver', [GroomingOrderController::class, 'deliverGroomingOrder']);
             Route::post('complete', [GroomingOrderController::class, 'completeGroomingOrder']);

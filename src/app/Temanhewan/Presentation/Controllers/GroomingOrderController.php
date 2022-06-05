@@ -16,6 +16,8 @@ use App\Temanhewan\Core\Application\Service\DeliverGroomingOrder\DeliverGrooming
 use App\Temanhewan\Core\Application\Service\DeliverGroomingOrder\DeliverGroomingOrderService;
 use App\Temanhewan\Core\Application\Service\PaidGroomingOrder\PaidGroomingOrderRequest;
 use App\Temanhewan\Core\Application\Service\PaidGroomingOrder\PaidGroomingOrderService;
+use App\Temanhewan\Core\Application\Service\RejectGroomingOrder\RejectGroomingOrderRequest;
+use App\Temanhewan\Core\Application\Service\RejectGroomingOrder\RejectGroomingOrderService;
 use App\Temanhewan\Core\Domain\Repository\GroomingOrderRepository;
 use App\Temanhewan\Core\Domain\Repository\GroomingServiceRepository;
 use App\Temanhewan\Core\Domain\Repository\PetRepository;
@@ -117,6 +119,37 @@ class GroomingOrderController extends Controller
         );
 
         $service = new CancelGroomingOrderService(
+            $this->userRepository,
+            $this->groomingOrderRepository
+        );
+
+        $this->db_manager->begin();
+
+        try {
+            $response = $service->execute($input);
+            $this->db_manager->commit();
+        }catch (Exception $e){
+            $this->db_manager->rollback();
+            return $this->error($e);
+        }
+
+        return $this->successWithData($response);
+    }
+
+    public function rejectGroomingOrder(Request $request): JsonResponse
+    {
+        $rules = [
+            'id' => 'required',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if($validator->fails()) return $this->validationError($validator->errors());
+
+        $input = new RejectGroomingOrderRequest(
+            id: $request->input('id'),
+        );
+
+        $service = new RejectGroomingOrderService(
             $this->userRepository,
             $this->groomingOrderRepository
         );
