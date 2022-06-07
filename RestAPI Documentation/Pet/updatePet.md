@@ -14,6 +14,8 @@
     "profil_image": ?file
 }
 ```
+note: `description` dan `profil_image` merupakan opsional dan bisa kosong.
+
 
 - Expected Success Output: 
 

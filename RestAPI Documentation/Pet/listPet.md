@@ -1,4 +1,4 @@
-### Api untuk, list my pets -> /api/pet/list
+### Api untuk, list User's pets -> /api/pet/list
 
 - Example Headers: `{ Authorization: Bearer 1|XEg4gD0WWSLEPK2CBq4LTCjsVpski2FFEvnDX72B }`
 

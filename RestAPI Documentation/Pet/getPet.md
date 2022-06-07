@@ -1,4 +1,4 @@
-### Api untuk, get my pet -> /api/pet/get
+### Api untuk, get data User's pet -> /api/pet/get
 
 - Example Headers: `{ Authorization: Bearer 1|XEg4gD0WWSLEPK2CBq4LTCjsVpski2FFEvnDX72B }`
 
