@@ -4,17 +4,18 @@
 - Example Input: 
 ```json
 { 
-    name: string,
-    profile_image: file,
-    birthdate: date (ex: 2000-12-19),
-    password(optional, confirmed): string,
-    address: string,
-    phone: string 
-}```
+    "name": string,
+    "profile_image": file,
+    "birthdate": date (ex: 2000-12-19),
+    "address": string,
+    "phone": string 
+}
+```
+- Example Success Output:
 
-- Example Success Output: 
 ```json
 { 
-    status: true, 
-    message: "success"
-}```
+    "status": true, 
+    "message": "success"
+}
+```

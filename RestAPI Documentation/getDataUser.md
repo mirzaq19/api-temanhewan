@@ -1,8 +1,9 @@
 ### Api untuk get data user -> /api/user/get
 
 - Example Headers: `{ Authorization: Bearer 1|XEg4gD0WWSLEPK2CBq4LTCjsVpski2FFEvnDX72B }`
-- Example Input : -
+- Example Input : None
 - Example Success Output: 
+
 ```json
 {
    "success": true,
@@ -20,4 +21,5 @@
          "address": "Sukolilo, Surabaya",
          "phone": "0822345323445"
    }
-}```
+}
+```
