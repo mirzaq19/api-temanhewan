@@ -1,12 +1,14 @@
 ### Api untuk login -> api/user/login
 
 - Example Input: `{ email: string, password: string}`
-- Example Success Output: 
+
+- Example Success Output:
+
 ```json
 { 
-   success: true, 
-   message: Success, 
-   data: { 
+   "success": true, 
+   "message": Success, 
+   "data": { 
       user:{
          "id": ...,
          "name": ...,
@@ -23,8 +25,8 @@
          "created_at": "2022-05-22T01:10:51.000000Z",
          "updated_at": "2022-05-22T01:10:51.000000Z" 
          }, 
-      access_token: 1|XEg4gD0WWSLEPK2CBq4LTCjsVpski2FFEvnDX72B, 
-      token_type: Bearer 
+      "access_token": 1|XEg4gD0WWSLEPK2CBq4LTCjsVpski2FFEvnDX72B, 
+      "token_type": Bearer 
    }
 }
 ```
