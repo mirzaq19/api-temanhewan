@@ -1,7 +1,17 @@
-### Api untuk, get my created forums
+### Api untuk, get User created forums -> /api/forum/my
 
-- Example Input: `{ limit: int }`
+- Example Header: `{ Authorization: Bearer 1|XEg4gD0WWSLEPK2CBq4LTCjsVpski2FFEvnDX72B }`
+
+- Example Input: 
+
+```json
+{ 
+    "offset": int,
+    "limit": int 
+}```
+
 - Expected Success Output:
+
 ```json
 {
     "success": true,
@@ -30,4 +40,5 @@
             ]
         }
     ]
-} ```
+}
+```

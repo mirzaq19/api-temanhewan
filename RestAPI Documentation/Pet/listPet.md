@@ -18,7 +18,7 @@
     "status": true, 
     "message": success, 
     "data": 
-        [array of pets within limit] 
+        [ 
             { 
                 id, 
                 name, 
@@ -27,5 +27,6 @@
                 gender, 
                 profile_image 
             } 
+        ]
 }
 ```
