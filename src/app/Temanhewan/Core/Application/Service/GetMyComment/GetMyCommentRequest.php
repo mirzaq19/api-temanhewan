@@ -2,7 +2,7 @@
 
 namespace App\Temanhewan\Core\Application\Service\GetMyForum;
 
-class GetMyForumRequest
+class GetMyCommentRequest
 {
     public function __construct(
         private int $offset,
