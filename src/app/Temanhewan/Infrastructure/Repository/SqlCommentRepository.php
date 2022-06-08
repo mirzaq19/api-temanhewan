@@ -127,4 +127,21 @@ class SqlCommentRepository implements CommentRepository
             ->where('comment_id', $comment->getId()->id())
             ->delete();
     }
+
+    public function listCommentByUser(UserId $userId, int $offset, int $limit): array
+    {
+        $comment_rows = DB::table('comments')
+            ->where('user_id', $userId->id())
+            ->orderByDesc('created_at')
+            ->offset($offset)
+            ->limit($limit)
+            ->get();
+
+        $comments = [];
+        foreach ($comment_rows as $comment_row) {
+            $comments[] = $this->convertRowToComment($comment_row);
+        }
+
+        return $comments;
+    }
 }
