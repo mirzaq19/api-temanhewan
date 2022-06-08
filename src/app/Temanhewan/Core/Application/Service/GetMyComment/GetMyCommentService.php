@@ -2,6 +2,7 @@
 
 namespace App\Temanhewan\Core\Application\Service\GetMyComment;
 
+use App\Temanhewan\Core\Application\Service\GetMyComment\GetMyCommentRequest;
 use App\Temanhewan\Core\Domain\Model\UserId;
 use App\Temanhewan\Core\Domain\Repository\CommentRepository;
 use App\Temanhewan\Core\Domain\Repository\UserRepository;
@@ -25,7 +26,7 @@ class GetMyCommentService
 
         foreach ($comments as $comment) {
             $commentImages = $this->commentRepository->getCommentImages($comment->getId());
-            $response[] = new CreateCommentResponse($user,$comment, $commentImages);
+            $response[] = new CreateCommentResponse($comment,$user,$commentImages);
         }
 
         return $response;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Temanhewan\Core\Application\Service\GetMyForum;
+namespace App\Temanhewan\Core\Application\Service\GetMyComment;
 
 class GetMyCommentRequest
 {
