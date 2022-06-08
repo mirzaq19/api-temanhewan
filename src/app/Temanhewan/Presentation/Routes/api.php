@@ -55,6 +55,7 @@ Route::prefix('comment')->group(function () {
         Route::post('update', [CommentController::class, 'updateComment']);
         Route::post('delete', [CommentController::class, 'deleteComment']);
         Route::post('delete-image', [CommentController::class, 'deleteCommentImage']);
+        Route::post('my', [CommentController::class, 'getMyComment']);
     });
 });
 
