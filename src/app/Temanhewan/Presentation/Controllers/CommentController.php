@@ -11,6 +11,8 @@ use App\Temanhewan\Core\Application\Service\DeleteCommentImage\DeleteCommentImag
 use App\Temanhewan\Core\Application\Service\DeleteCommentImage\DeleteCommentImageService;
 use App\Temanhewan\Core\Application\Service\GetComment\GetCommentRequest;
 use App\Temanhewan\Core\Application\Service\GetComment\GetCommentService;
+use App\Temanhewan\Core\Application\Service\GetMyComment\GetMyCommentRequest;
+use App\Temanhewan\Core\Application\Service\GetMyComment\GetMyCommentService;
 use App\Temanhewan\Core\Application\Service\GetForumComments\GetForumCommentsRequest;
 use App\Temanhewan\Core\Application\Service\GetForumComments\GetForumCommentsService;
 use App\Temanhewan\Core\Application\Service\UpdateComment\UpdateCommentRequest;
