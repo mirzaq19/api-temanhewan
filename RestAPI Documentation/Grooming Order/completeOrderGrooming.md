@@ -1,4 +1,4 @@
-### API untuk mengkonfirmasi penyelesaian jasa grooming -> /api/grooming/order/complete
+### API untuk user mengkonfirmasi penyelesaian jasa grooming -> /api/grooming/order/complete
 
 - Example Header: `{ Authorization: Bearer 1|XEg4gD0WWSLEPK2CBq4LTCjsVpski2FFEvnDX72B }`
 

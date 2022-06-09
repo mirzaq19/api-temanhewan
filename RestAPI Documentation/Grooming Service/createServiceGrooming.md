@@ -12,6 +12,7 @@
     "grooming_id": string
 }
 ```
+note: `price` only number input
 
 - Example Succes Output:
 
